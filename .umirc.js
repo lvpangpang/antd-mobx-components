@@ -1,18 +1,23 @@
 export default {
-  title: 'components',
-  logo: '/logo.png',
-  favicon: '/logo.png',
+  title: "components",
+  logo: "/index.ico",
+  favicon: "/index.ico",
   resolve: {
-    includes: ['example'],
+    includes: ["example"],
   },
+  history: {
+    type: "hash",
+  },
+  publicPath: "./",
+  outputPath: "docs",
   extraBabelPlugins: [
     [
-      'babel-plugin-import',
+      "babel-plugin-import",
       {
-        libraryName: 'antd',
-        libraryDirectory: 'es',
+        libraryName: "antd",
+        libraryDirectory: "es",
         style: true,
       },
     ],
   ],
-}
+};

@@ -1,80 +1,92 @@
-import { useEffect } from 'react'
-import { observer } from 'mobx-react-lite'
-import { Form, Button, Row, Col } from 'antd'
-import { SearchOutlined, EditOutlined } from '@ant-design/icons'
+import React, { useEffect } from "react";
+import { Button, Form, Space, Row } from "antd";
+import { observer } from "mobx-react-lite";
+import { SearchOutlined, RollbackOutlined } from "@ant-design/icons";
+import "./index.less";
+import SearchBarItem from "./Item";
+function SearchBar(props) {
+  const {
+    style,
+    store,
+    extra,
+    onRest,
+    onSearch,
+    children,
+    initialValues,
+    itemCol = { span: 6 },
+    cache = true,
+    showSearch = true,
+    searchButtonProps,
+    searchButtonText = "搜索",
+    showRest = true,
+    restButtonProps,
+    restButtonText = "重置",
+    extraParams,
+    ...restProps
+  } = props;
 
-import SearchStore from './store'
+  const searchBarStore = store.getSearchBarStore ? store.getSearchBarStore() : store
+  const [form] = Form.useForm();
 
-const Item = Form.Item
+  searchBarStore.setFormInstance(form);
+  searchBarStore.setSearchParams(initialValues);
 
-const Style = {
-  button: {
-    marginLeft: '8px',
-  },
-}
-
-const layout = {
-  labelCol: { span: 10 },
-  wrapperCol: { span: 16 },
-}
-
-function SearchItem({ col = 6, children, ...rest }) {
-  return (
-    <Col span={col}>
-      <Item {...rest}>{children}</Item>
-    </Col>
-  )
-}
-
-function SearchBar({ children, cache = true, store, extra = [], ...rest }) {
-  const [form] = Form.useForm()
-
-  const handleSearch = () => {
-    const params = form.getFieldsValue()
-    SearchStore.setParams(params)
-    store.fetchList(params)
-  }
+  const hanleSearch = () => {
+    searchBarStore.search();
+  };
 
   const handleRest = () => {
-    SearchStore.setParams({})
-    form.resetFields()
-  }
+    searchBarStore.reset();
+    onRest?.();
+  };
 
   useEffect(() => {
-    form.setFieldsValue(SearchStore.params)
-    return () => {
-      if(!cache) {
-        SearchStore.setParams({})
-      }
+    if (cache && searchBarStore) {
+      form.setFieldsValue(searchBarStore.searchParams);
+      return () => {
+        if (!cache && searchBarStore) {
+          searchBarStore.reset();
+        }
+      };
     }
-  }, [])
+  }, []);
 
   return (
-    <Form form={form} {...layout} {...rest}>
+    <Form
+      form={form}
+      initialValues={initialValues}
+      onFinish={hanleSearch}
+      labelCol={{ span: 6 }}
+      wrapperCol={{ span: 18 }}
+      className="searchBar"
+      {...restProps}
+    >
       <Row>{children}</Row>
-      <div style={{ textAlign: 'right' }}>
-        <Button
-          type="primary"
-          icon={<SearchOutlined />}
-          onClick={handleSearch}
-          style={Style.button}
-        >
-          搜索
-        </Button>
-        <Button icon={<EditOutlined />} style={Style.button} onClick={handleRest}>
-          清空
-        </Button>
-        {extra.map((item, index) => {
-          return (
-            <span style={Style.button} key={index}>
-              {item}
-            </span>
-          )
-        })}
-      </div>
+      <Space size={16} className="extra">
+        {showSearch && (
+          <Button
+            icon={<SearchOutlined />}
+            type="primary"
+            onClick={hanleSearch}
+            {...searchButtonProps}
+          >
+            {searchButtonText}
+          </Button>
+        )}
+        {showRest && (
+          <Button
+            icon={<RollbackOutlined />}
+            onClick={handleRest}
+            {...restButtonProps}
+          >
+            {restButtonText}
+          </Button>
+        )}
+        {extra}
+      </Space>
     </Form>
-  )
+  );
 }
 
-SearchBar.Item = SearchItem
-export default observer(SearchBar)
+SearchBar.Item = SearchBarItem;
+export default observer(SearchBar);

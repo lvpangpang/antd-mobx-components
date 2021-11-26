@@ -1,6 +1,4 @@
-## Select
-
-### 默认配置
+# Select
 
 ```jsx
 import React, { useState } from 'react'
@@ -40,7 +38,7 @@ export default function Index() {
 }
 ```
 
-### 全选
+## 全选
 
 ```jsx
 import React, { useState } from 'react'
