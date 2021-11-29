@@ -1,16 +1,16 @@
 import { observer } from "mobx-react-lite";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Table } from "antd";
 
 function myTable(props) {
-  const { columns, store } = props;
+  const { columns, store, ...restProps } = props;
   const tableStore = store;
   if (tableStore && tableStore.$storeName !== "TABLE_STORE") {
     console.error("store属性必须为TableStore的实例");
     return null;
   }
 
-  const { list, loading, pagination, paging } = tableStore;
+  const { rowKey, list, loading, pagination, paging } = tableStore;
 
   useEffect(() => {
     tableStore.search();
@@ -18,12 +18,14 @@ function myTable(props) {
 
   return (
     <Table
-      rowKey="id"
+      bordered
+      rowKey={rowKey || "id"}
       columns={columns}
       dataSource={list}
       loading={loading}
       pagination={pagination}
       onChange={paging}
+      {...restProps}
     ></Table>
   );
 }

@@ -18,6 +18,7 @@ class SearchStore {
     makeObservable(this, {});
   }
 
+  // form相关
   form = null;
   setFormInstance = (form) => {
     this.form = form;
@@ -25,7 +26,8 @@ class SearchStore {
   getFormInstance = () => {
     return this.form;
   };
-
+  
+  // 搜索条件
   searchParams = {};
   setSearchParams = (params) => {
     this.searchParams = omitValues(params);
@@ -35,6 +37,7 @@ class SearchStore {
     return this.searchParams;
   };
 
+  // 动作
   reset = () => {
     this.setSearchParams({});
     this.form.resetFields(); // 这样才能视图同步清除

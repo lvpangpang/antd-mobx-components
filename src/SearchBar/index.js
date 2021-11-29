@@ -9,8 +9,6 @@ function SearchBar(props) {
     style,
     store,
     extra,
-    onRest,
-    onSearch,
     children,
     initialValues,
     itemCol = { span: 6 },
@@ -21,11 +19,12 @@ function SearchBar(props) {
     showRest = true,
     restButtonProps,
     restButtonText = "重置",
-    extraParams,
     ...restProps
   } = props;
 
-  const searchBarStore = store.getSearchBarStore ? store.getSearchBarStore() : store
+  const searchBarStore = store.getSearchBarStore
+    ? store.getSearchBarStore()
+    : store;
   const [form] = Form.useForm();
 
   searchBarStore.setFormInstance(form);
@@ -37,7 +36,6 @@ function SearchBar(props) {
 
   const handleRest = () => {
     searchBarStore.reset();
-    onRest?.();
   };
 
   useEffect(() => {

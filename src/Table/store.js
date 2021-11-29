@@ -1,5 +1,5 @@
 import { makeObservable, runInAction, observable } from "mobx";
-import { isNum, omitValues } from "js-common-library";
+import { omitValues } from "js-common-library";
 import SearchStore from "../SearchBar/store";
 
 function overrideStore(instance, overrides) {
@@ -25,7 +25,7 @@ class TableStore {
   }
 
   $searchBarStore = new SearchStore({
-    onSearch: (params) => {
+    onSearch: () => {
       this.search();
     },
   });
@@ -84,7 +84,7 @@ class TableStore {
   };
 
   // 搜索请求
-  search = async (params) => {
+  search = async () => {
     const finalParams = this.getFinalParams();
     const defaultData = {
       list: [],

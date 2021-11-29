@@ -1,8 +1,10 @@
 # Table
 
+## 实例
+
 ```jsx
 import React from "react";
-import { Input, Select,  DatePicker } from "antd";
+import { Input, Select, DatePicker } from "antd";
 import { getRandomStr } from "js-common-library";
 import { SearchBar, TableStore, Table } from "antd-mobx-components";
 
@@ -27,9 +29,9 @@ const store = new TableStore({
   fetchList: async (params) => {
     params = {
       ...params,
-      time: 987987987987
-    }
-    console.log(params)
+      time: 987987987987,
+    };
+    console.log(params);
     const { list, total } = await getList(params);
     return {
       list,
@@ -63,9 +65,12 @@ const { Option } = Select;
 export default function Index() {
   return (
     <>
-      <SearchBar store={store} initialValues={{
-        name: '吕肥肥'
-      }}>
+      <SearchBar
+        store={store}
+        initialValues={{
+          name: "吕肥肥",
+        }}
+      >
         <Item name="name" label="姓名">
           <Input />
         </Item>
@@ -91,3 +96,15 @@ export default function Index() {
   );
 }
 ```
+
+## API
+
+| 属性  | 说明                        | 类型   | 默认值 |
+| ----- | --------------------------- | ------ | ------ |
+| store | TableStore 实例对象（必须） | object | null   |
+
+其他 API 参考 antd-Table 组件文档
+
+## 接口
+
+通过重写 store.fetchList 方法来发搜索请求， 必须返回 list 以及 total 属性
