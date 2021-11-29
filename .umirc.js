@@ -1,7 +1,7 @@
 export default {
   title: "components",
-  logo: "/index.ico",
-  favicon: "/index.ico",
+  logo: "./index.ico",
+  favicon: "./index.ico",
   resolve: {
     includes: ["example"],
   },
