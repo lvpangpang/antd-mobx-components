@@ -1,71 +1,96 @@
-import { useState } from 'react'
-import { Select, Checkbox, Divider } from 'antd'
+import { Select, Divider, Checkbox } from "antd";
+import { isStr, isArr } from "js-common-library";
+import { Children } from "react";
 
-const { Option } = Select
+const { Option, OptGroup } = Select;
 
-function filterOption(input, option) {
-  return option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-}
-
-function mySelect({
-  data = [],
-  children,
-  placeholder = '请选择',
-  showAll,
-  allChange,
-  showAllText = '全选',
-  ...rest
-}) {
-  let child = children
-  if (data.length) {
-    child = data.map((item) => {
-      return (
-        <Option key={item.key} value={item.key}>
-          {item.label}
-        </Option>
-      )
-    })
+const filterOption = (input, option) => {
+  if (isStr(option.children)) {
+    return option.children.toLowerCase().includes(input.toLowerCase());
   }
+  return false;
+};
+
+function MySelect(props) {
+  const {
+    showAll,
+    mode,
+    type,
+    options,
+    children,
+    checkAllAction,
+    value,
+    onChange,
+    ...restProps
+  } = props;
+
+  const child =
+    children ||
+    options.map((item) => {
+      let value = item.value || item.key;
+      let label = item.label;
+      return <Option value={value} key={value}>{label}</Option>;
+    });
+
+  const optionCount = Children.count(child);
+  const showCheckAllAction =
+    ["multiple", "tags"].includes(mode) && optionCount > 0 && !!checkAllAction;
+
+  let allOption;
+  if (showAll && !showCheckAllAction) {
+    allOption = <Option value="">全部</Option>;
+  }
+
+  const checkAll = (e) => {
+    if (e.target.checked) {
+      const allValues = Children.map(child, (node) => {
+        const { value: nodeValue } = node.props;
+        return nodeValue;
+      });
+      onChange?.(allValues);
+    } else {
+      onChange?.(undefined);
+    }
+  };
+
+  const valueCount = isArr(value) ? value.length : 0;
+  const hasAllChecked = valueCount > 0 && optionCount === valueCount;
+  const indeterminate = valueCount > 0 && valueCount < optionCount;
+  const dropdownRender = (menu) => {
+    return (
+      <div>
+        {menu}
+        <Divider style={{ margin: "4px 0" }}></Divider>
+        <Checkbox
+          style={{ padding: 8 }}
+          indeterminate={indeterminate}
+          checked={hasAllChecked}
+          onChange={checkAll}
+        >
+          全选
+        </Checkbox>
+      </div>
+    );
+  };
+
   return (
     <Select
-      placeholder={placeholder}
+      filterOption={filterOption}
       allowClear
       showSearch
-      filterOption={filterOption}
-      {...rest}
-      dropdownRender={
-        showAll &&
-        ((menu) => (
-          <>
-            {menu}
-            <Divider style={{ margin: '2px 0' }} />
-            <div style={{ padding: '4px 8px 8px 8px', cursor: 'pointer' }}>
-              <Checkbox
-                disabled={data.length === 0}
-                // checked={all}
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    const list = data.map((item) => {
-                      return item.key
-                    })
-                    allChange(list)
-                  } else {
-                    allChange([])
-                  }
-                }}
-              >
-                {showAllText}
-              </Checkbox>
-            </div>
-          </>
-        ))
-      }
+      dropdownRender={showCheckAllAction && dropdownRender}
+      value={value}
+      mode={mode}
+      onChange={onChange}
+      {...restProps}
     >
+      {allOption}
       {child}
     </Select>
-  )
+  );
 }
 
-mySelect.Option = Option
+MySelect.Option = Option;
+MySelect.OptGroup = OptGroup;
 
-export default mySelect
+export default MySelect;

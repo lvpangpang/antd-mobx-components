@@ -1,86 +1,48 @@
 # Select
 
-```jsx
-import React, { useState } from 'react'
-import { Select } from '../src'
+## 实例
 
-const { Option } = Select
-
-const data = [
-  {
-    key: 1,
-    label: 'A'
-  },
-  {
-    key: 2,
-    label: 'B'
-  },
-  {
-    key: 3,
-    label: 'C'
-  }
-]
-export default function Index() {
-  return (
-    <Select
-      style={{ width: 180 }}
-      placeholder="请选择"
-      onChange={(data) => {
-        console.log(data)
-      }}
-      onSearch={(data) => {
-        console.log(data)
-      }}
-      data={data}
-    >
-    </Select>
-  )
-}
-```
-
-## 全选
+自带全选功能的下拉选择组件
 
 ```jsx
-import React, { useState } from 'react'
-import { Select } from '../src'
+import React, { useState } from "react";
+import { Select } from "antd-mobx-components";
 
-const { Option } = Select
+const { Option } = Select;
 
-const data = [
-  {
-    key: 1,
-    label: 'A'
-  },
-  {
-    key: 2,
-    label: 'B'
-  },
-  {
-    key: 3,
-    label: 'C'
-  }
-]
 export default function Index() {
-
-  const [selectList, setSelectList] = useState([])
+  const [value, setValue] = useState();
   return (
     <Select
-      style={{ width: 180 }}
-      placeholder="请选择"
-      allowClear
-      onChange={(data) => {
-        setSelectList(data)
-        console.log(data)
-      }}
-      mode="multiple"
-      data={data}
       showAll
-      allChange={(data) => {
-        setSelectList(data)
+      style={{ width: 200 }}
+      value={value}
+      mode="multiple"
+      checkAllAction
+      options={[
+        {
+          key: "1",
+          label: "吕肥肥",
+        },
+        {
+          key: "2",
+          label: "王大熊",
+        },
+      ]}
+      onChange={(e) => {
+        console.log(e);
+        setValue(e);
       }}
-      value={selectList}
-    >
-    </Select>
-  )
+    ></Select>
+  );
 }
 ```
+
+## API
+
+| 属性           | 说明                                         | 类型    | 默认值 |
+| -------------- | -------------------------------------------- | ------- | ------ |
+| options        | 数据源                                       | 数组    | []     |
+| checkAllAction | 是否开启全选（mode 必须为 multiple 或 tags） | blooean |        |
+
+其他 API 参考 antd-Select 组件文档
