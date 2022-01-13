@@ -25,20 +25,24 @@ function getList() {
   });
 }
 
-const store = new TableStore({
-  fetchList: async (params) => {
-    params = {
-      ...params,
-      time: 987987987987,
-    };
-    console.log(params);
-    const { list, total } = await getList(params);
-    return {
-      list,
-      total,
-    };
-  },
-});
+class Store {
+  $table = new TableStore({
+    fetchList: async (params) => {
+      params = {
+        ...params,
+        time: 987987987987,
+      };
+      console.log(params);
+      const { list, total } = await getList(params);
+      return {
+        list,
+        total,
+      };
+    },
+  });
+}
+
+const store = new Store()
 
 const columns = [
   {
@@ -67,6 +71,7 @@ export default function Index() {
     <>
       <SearchBar
         store={store}
+        itemCol={{span: 6}}
         initialValues={{
           name: "吕肥肥",
         }}
@@ -77,7 +82,7 @@ export default function Index() {
         <Item name="age" label="年龄">
           <Input />
         </Item>
-        <Item name="fruit" label="喜欢的水果" span={12}>
+        <Item name="fruit" label="喜欢的水果" col={{span: 12}}>
           <Select>
             <Option key="1">西瓜</Option>
             <Option key="2">橘子</Option>

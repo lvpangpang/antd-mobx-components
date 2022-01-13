@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
-import { Button, Form, Space, Row } from "antd";
-import { observer } from "mobx-react-lite";
-import { SearchOutlined, RollbackOutlined } from "@ant-design/icons";
-import "./index.less";
-import SearchBarItem from "./Item";
+import React, { useEffect } from 'react'
+import { Button, Form, Space, Row } from 'antd'
+import { observer } from 'mobx-react-lite'
+import { SearchOutlined, RollbackOutlined } from '@ant-design/icons'
+import './index.less'
+import SearchBarItem from './Item'
+import SearchContext from './context'
+
 function SearchBar(props) {
   const {
     style,
@@ -15,76 +17,75 @@ function SearchBar(props) {
     cache = true,
     showSearch = true,
     searchButtonProps,
-    searchButtonText = "搜索",
+    searchButtonText = '搜索',
     showRest = true,
     restButtonProps,
-    restButtonText = "重置",
+    restButtonText = '重置',
     ...restProps
-  } = props;
+  } = props
 
-  const searchBarStore = store.getSearchBarStore
-    ? store.getSearchBarStore()
-    : store;
-  const [form] = Form.useForm();
+  // 当配合table使用的时候，store为TableStore的实例，需要通过调用getSearchBarStore方法获取SearchBar的store实例
+  let searchBarStore = store.$table ? store.$table.getSearchBarStore() : store
 
-  searchBarStore.setFormInstance(form);
-  searchBarStore.setSearchParams(initialValues);
+  const [form] = Form.useForm()
+
+  searchBarStore.setFormInstance(form)
+  searchBarStore.setSearchParams({ ...initialValues, ...searchBarStore.searchParams })
 
   const hanleSearch = () => {
-    searchBarStore.search();
-  };
+    searchBarStore.search()
+  }
 
   const handleRest = () => {
-    searchBarStore.reset();
-  };
+    searchBarStore.reset()
+  }
 
   useEffect(() => {
     if (cache && searchBarStore) {
-      form.setFieldsValue(searchBarStore.searchParams);
+      form.setFieldsValue(searchBarStore.searchParams)
       return () => {
         if (!cache && searchBarStore) {
-          searchBarStore.reset();
+          searchBarStore.reset()
         }
-      };
+      }
     }
-  }, []);
+  }, [])
 
   return (
-    <Form
-      form={form}
-      initialValues={initialValues}
-      onFinish={hanleSearch}
-      labelCol={{ span: 6 }}
-      wrapperCol={{ span: 18 }}
-      className="searchBar"
-      {...restProps}
-    >
-      <Row>{children}</Row>
-      <Space size={16} className="extra">
-        {showSearch && (
-          <Button
-            icon={<SearchOutlined />}
-            type="primary"
-            onClick={hanleSearch}
-            {...searchButtonProps}
-          >
-            {searchButtonText}
-          </Button>
-        )}
-        {showRest && (
-          <Button
-            icon={<RollbackOutlined />}
-            onClick={handleRest}
-            {...restButtonProps}
-          >
-            {restButtonText}
-          </Button>
-        )}
-        {extra}
-      </Space>
-    </Form>
-  );
+    <SearchContext.Provider value={{
+      itemCol
+    }}>
+      <Form
+        form={form}
+        initialValues={initialValues}
+        labelCol={{ span: 9 }}
+        wrapperCol={{ span: 15 }}
+        className="searchBar"
+        {...restProps}
+      >
+        <Row>{children}</Row>
+        <Space size={16} className="extra">
+          {showSearch && (
+            <Button
+              icon={<SearchOutlined />}
+              type="primary"
+              onClick={hanleSearch}
+              {...searchButtonProps}
+            >
+              {searchButtonText}
+            </Button>
+          )}
+          {showRest && (
+            <Button icon={<RollbackOutlined />} onClick={handleRest} {...restButtonProps}>
+              {restButtonText}
+            </Button>
+          )}
+          {extra}
+        </Space>
+      </Form>
+    </SearchContext.Provider>
+  )
 }
 
-SearchBar.Item = SearchBarItem;
-export default observer(SearchBar);
+SearchBar.Item = SearchBarItem
+export default observer(SearchBar)
