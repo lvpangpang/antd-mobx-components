@@ -27,7 +27,7 @@ class TableStore {
   /* searchBar开始 */
   $searchBarStore = new SearchStore({
     onSearch: () => {
-      this.search() // 点击搜索按钮调用的是这里的方法
+      this.search() // 点击搜索调用的就是TableStore里面的search方法
     },
   })
   // 此方法是暴露给SearchBar组件使用的，为了获取SearchBar自己的store

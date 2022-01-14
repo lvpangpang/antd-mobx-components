@@ -16,11 +16,11 @@ function SearchItem(props) {
   }
   return (
     <Col {..._itemCol}>
-      <Item label={label} {...rest} style={{ marginBottom: "10px" }}>
+      <Item label={label} {...rest} style={{ marginBottom: '10px' }}>
         {child}
       </Item>
     </Col>
-  );
+  )
 }
 
 export default SearchItem
