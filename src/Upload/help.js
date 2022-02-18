@@ -5,7 +5,7 @@ import { isFun, http, isArr } from "js-common-library";
 export function transformToFileObj(item) {
   return {
     status: 'done',
-    name: item.url,
+    name: item.name || item.url,
     url: item.url,
   }
 }
@@ -23,48 +23,48 @@ export function isImg(file) {
 }
 
 // 获取图片信息
-export function getImgInfo(file) {
-  const filer = new FileReader();
-  filer.readAsDataUrl(file);
+export function getImgInfo(imgFile) {
+  const fileReader = new FileReader();
+  fileReader.readAsDataURL(imgFile);
   return new Promise((resolve, reject) => {
-    filer.onload = function (e) {
+    fileReader.onload = (e) => {
       const img = new window.Image();
       img.src = e.target.result;
-      img.onload = function () {
+      img.onload = () => {
         resolve(img);
       };
       img.onerror = reject;
     };
-    filer.onerror = reject;
+    fileReader.onerror = reject;
   });
 }
 
 // 判断图片格式
 export function verifyImg(imgInfo, limit) {
-  const { natureWidth, natureHeight } = imgInfo;
-  const { width, height, maxWith, maxHeight } = limit;
+  const { naturalWidth, naturalHeight } = imgInfo;
+  const { width, height, maxWidth, maxHeight } = limit;
 
   if (width && height) {
-    if (natureWidth === width && natureHeight === height) {
+    if (naturalWidth === width && naturalHeight === height) {
       return true;
     }
     message.error(`请上传尺寸为 ${width}px * ${height}px 的图片`);
     return false;
   }
 
-  if (width && natureWidth !== width) {
+  if (width && naturalWidth !== width) {
     message.error(`请上传宽度为 ${width}px 的图片`);
     return false;
   }
-  if (height && natureHeight !== height) {
+  if (height && naturalHeight !== height) {
     message.error(`请上传高度为 ${height}px 的图片`);
     return false;
   }
-  if (maxWith && natureWidth > maxWith) {
-    message.error(`请上传最大宽度为 ${maxWith}px 的图片`);
+  if (maxWidth && naturalWidth > maxWidth) {
+    message.error(`请上传最大宽度为 ${maxWidth}px 的图片`);
     return false;
   }
-  if (maxHeight && natureHeight > maxHeight) {
+  if (maxHeight && naturalHeight > maxHeight) {
     message.error(`请上传最大高度为 ${maxHeight}px 的图片`);
     return false;
   }
@@ -90,21 +90,22 @@ export async function getOSSConfig(getConfig) {
   if (isFun(getConfig)) {
     config = await getConfig();
   } else {
-    config = http.get("/owlc/v1/aliyun/oss/sts/token", {
+    // 默认请求STS
+    config = await http.get("/owlc/v1/aliyun/oss/sts/token", {
       tansfromResult(res) {
         return res.data?.data;
       },
     });
-    if (config.securityToken) {
-      return config;
-    }
-    return {};
   }
+  if (config.securityToken) {
+    return config;
+  }
+  return {};
 }
 
 // 上传oss
 export async function uploadOSS(file, config) {
-  const { onProgress, onSuccess, onError, maxSize, getConfig, dir } =
+  const { onProgress, onSuccess, onError, maxSize, getConfig, dirname } =
     config || {};
   if (!file) {
     return onError({
@@ -118,18 +119,21 @@ export async function uploadOSS(file, config) {
   }
   try {
     const fileName = file.name;
-    const uploadName = dir ? dir + "/" + fileName : fileName;
+    const uploadName = dirname ? dirname + "/" + fileName : fileName;
+
     const { securityToken, ...ossConfig } = await getOSSConfig(getConfig);
     if (!securityToken) {
       return onError({
         msg: "获取OSS配置失败",
       });
     }
+
     const Client = window.OSS.Wrapper || window.OSS;
     const client = new Client({
       stsToken: securityToken,
       ...ossConfig,
     });
+
     const result = await client.multipartUpload(uploadName, file, {
       async onProgress(percent) {
         onProgress?.({
@@ -137,15 +141,15 @@ export async function uploadOSS(file, config) {
         });
       },
     });
-
-    const { res } = result;
+    const { res, name } = result;
     const url = client.signatureUrl(uploadName)
     onSuccess({
       url,
-      name: uploadName,
-      resquestUrl: res.resquestUrl
-    })
+      name,
+      resquestUrls: res.requestUrls
+    });
+
   } catch (err) {
-    onError({ error: e, msg: "上传出错，请重试" });
+    onError({ error: err, msg: "上传出错，请重试" });
   }
 }
