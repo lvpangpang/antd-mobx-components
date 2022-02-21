@@ -10,6 +10,7 @@ export function transformToFileObj(item) {
   }
 }
 
+// 初始化数据转化格式
 export function optimizeValue(value) {
   if (!isArr(value)) {
     return [];
@@ -97,32 +98,24 @@ export async function getOSSConfig(getConfig) {
       },
     });
   }
-  if (config.securityToken) {
+  if (config?.securityToken) {
     return config;
   }
   return {};
 }
 
-// 上传oss
+// oss上传文件
 export async function uploadOSS(file, config) {
-  const { onProgress, onSuccess, onError, maxSize, getConfig, dirname } =
+  const { onProgress, onSuccess, onError, getConfig, dirname } =
     config || {};
-  if (!file) {
-    return onError({
-      msg: "文件不存在",
-    });
-  }
-  if (file.size > maxSize) {
-    return onError({
-      msg: `上传文件大小不能超过 ${(maxSize / 10124 / 1024).toFixed(2)} M `,
-    });
-  }
   try {
     const fileName = file.name;
     const uploadName = dirname ? dirname + "/" + fileName : fileName;
 
     const { securityToken, ...ossConfig } = await getOSSConfig(getConfig);
     if (!securityToken) {
+      message.destroy();
+      message.error('获取OSS配置失败')
       return onError({
         msg: "获取OSS配置失败",
       });
@@ -139,7 +132,7 @@ export async function uploadOSS(file, config) {
         onProgress?.({
           percent: percent * 100,
         });
-      },
+      }
     });
     const { res, name } = result;
     const url = client.signatureUrl(uploadName)
@@ -150,6 +143,7 @@ export async function uploadOSS(file, config) {
     });
 
   } catch (err) {
+    message.error("上传出错，请重试");
     onError({ error: err, msg: "上传出错，请重试" });
   }
 }

@@ -33,6 +33,10 @@ function MyUpload(
   const overCount = list.length >= maxCount;
   const hideUpload = overCount;
 
+  /* 
+    file - 当前上传的单个文件(不管你选择了几个)
+    fileList- 所有已经上传的文件列表，包括当前上传的
+  */
   const handleChange = useCallback(
     ({ file, fileList }) => {
       const resList = fileList.map((item) => {
@@ -42,17 +46,21 @@ function MyUpload(
           ...response,
         };
       });
-      return onChange?.(resList.filter((item) => item.FILE_IGNORE !== true));
+      return onChange?.(
+        resList.filter(
+          (item) => item.FILE_IGNORE !== true && item.status !== "error"
+        )
+      );
     },
     [onChange]
   );
 
   /* 
     file - 当前上传的单个文件(不管你选择了几个)
-    fileList- 已经上传的文件列表 
+    fileList- 当前上传的文件列表（一次性选择2个文件上传，这个对象长度就是2）
   */
   const handleBeforeUpload = async (file, fileList) => {
-    const total = fileList.length + list.length;
+    const total = list.length + fileList.length;
 
     // 文件数量限制
     if (total > maxCount) {
@@ -78,8 +86,8 @@ function MyUpload(
       !isImg(file)
     ) {
       file[FILE_IGNORE] = true;
-       message.destroy();
-       message.error(`请上传图片格式的文件`);
+      message.destroy();
+      message.error(`请上传图片格式的文件`);
       return Promise.reject();
     }
     if (isImg(file) && imgLimit) {
@@ -119,7 +127,6 @@ function MyUpload(
       onProgress,
       onSuccess,
       onError,
-      maxSize,
       dirname,
       getConfig: getOSSConfig,
     });
