@@ -138,4 +138,4 @@ export default Index;
 | getOSSConfig | 获取阿里云 sts 配置 ，需要返回 Promise                | function |        |          |
 | imgLimit     | 图片限制，目前支持 width, height, maxWidth, maxHeight | object   |        |          |
 
-其他 API 参考 antd-Select 组件文档
+其他 API 参考 antd-Upload 组件文档
