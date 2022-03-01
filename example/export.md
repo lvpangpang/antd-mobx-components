@@ -10,9 +10,7 @@ import { Button, Card } from "antd";
 
 http.setConfig({
   headers: {
-    contextId: "dss",
-    "skio-token":
-      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJib3NzX2F1dGhfaXNzdWVyIiwiY29udGV4dElkIjoiZHNzIiwiZXhwIjoxNjQ1NTM5MDUyLCJ1c2VySWQiOjcxMn0.g43wn0-yQBBuyGad9CHmQt1L8r5I32j8mHCOff577FA",
+    "token": 123
   },
 });
 
@@ -20,8 +18,8 @@ function Index() {
   return (
     <>
       <Export
-        url="https://qa01web-gateway.lingxichuxing.com/capacity-backstage/v1/car/list/export"
-        name="车辆.xlsx"
+        url=""
+        name="ABC.xlsx"
         params={{ cityCode: "0512" }}
       ></Export>
     </>

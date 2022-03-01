@@ -5,10 +5,10 @@ export default function Fallback() {
   const len = Math.ceil((window.innerHeight - 112) / 36);
   const rows = new Array(len).fill("");
   return (
-    <div className="sd-app-fallback">
-      <div className="header sd-app-loading" />
+    <div className="app-fallback">
+      <div className="header app-loading" />
       <div className="main">
-        <div className="nav sd-app-loading" />
+        <div className="nav app-loading" />
         <div className="center">
           <div className="content">
             {rows.map((item, index) => {
@@ -16,7 +16,7 @@ export default function Fallback() {
                 <div
                   style={{ width: `${getRandomInt(75, 95)}%` }}
                   key={index}
-                  className="row sd-app-loading"
+                  className="row app-loading"
                 />
               );
             })}

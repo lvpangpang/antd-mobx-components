@@ -1,15 +1,9 @@
 @topH: 64px;
 .app-layout {
   display: flex;
-  min-height: 100%;
-  .app-sider-box {
+  .app-sider {
     background: #fff;
-    position: relative;
-    z-index: 100;
     min-height: 100vh;
-    flex: 0 0 200px;
-    max-width: 200px;
-    min-width: 200px;
     width: 200px;
     .logo {
       background: #001529;
@@ -32,62 +26,17 @@
       }
     }
   }
-  .app-sidebar-fixed {
-    transition: transform 0.3s;
-    position: fixed;
-    transform: translateX(-100%);
-    box-shadow: 2px 0 8px #aaa;
-    .side-nav {
-      height: calc(100vh - @topH);
-    }
-    .collapse-icon-fixed {
-      position: absolute;
-      top: @topH;
-      right: -34px;
-      z-index: 1;
-      width: 34px;
-      height: 40px;
-      color: #fff;
-      font-size: 18px;
-      line-height: 40px;
-      text-align: center;
-      background: #001529;
-      border-radius: 0 2px 2px 0;
-      cursor: pointer;
-    }
-  }
-  .app-sidebar-mask {
-    position: fixed;
-    width: 100vw;
-    height: 100vh;
-    z-index: 99;
-  }
-  .app-sidebar-fixed-show {
-    transform: translateX(0);
-  }
-  .app-center {
-    overflow-y: initial;
+
+  .app-content {
+    flex: 1;
     .app-header {
       position: relative;
       display: flex;
       justify-content: space-between;
       background-color: #001529;
-      .collapse-icon {
-        position: absolute;
-        font-size: 24px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-        cursor: pointer;
-        width: 40px;
-        color: #fff;
-        left: 10px;
-      }
       .top-nav {
         flex: 1;
         margin-right: 20px;
-        // margin-left: 20px;
         overflow: hidden;
         .top-menu {
           line-height: @topH;
@@ -101,14 +50,18 @@
         color: #fff;
         flex-shrink: 0;
         line-height: 64px;
-        margin-right: 10px;
+        margin-right: 30px;
       }
     }
-    .app-content {
-      padding: 20px 20px 0;
+    .app-center {
+      padding: 20px;
       min-height: auto;
-      // background: #d0d0d0;
-      
+      background: #f0eeee;
+      .content-center {
+        background: #fff;
+        min-height: calc(100vh - @topH - 40px);
+        padding: 20px;
+      }
     }
   }
 }

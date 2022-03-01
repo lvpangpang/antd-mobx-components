@@ -1,4 +1,4 @@
-@keyframes sd-app-loading-ani {
+@keyframes app-loading-ani {
   0% {
     background-position: 100% 50%;
   }
@@ -6,7 +6,7 @@
     background-position: 0 50%;
   }
 }
-.sd-app-fallback {
+.app-fallback {
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -32,7 +32,7 @@
     }
   }
 }
-.sd-app-loading {
+.app-loading {
   background: -webkit-gradient(
     linear,
     left top,
@@ -48,5 +48,5 @@
     rgba(190, 190, 190, 0.2) 63%
   );
   background-size: 400% 100%;
-  animation: sd-app-loading-ani 1.4s ease infinite;
+  animation: app-loading-ani 1.4s ease infinite;
 }

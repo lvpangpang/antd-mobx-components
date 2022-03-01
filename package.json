@@ -1,6 +1,6 @@
 {
   "name": "antd-mobx-components",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "基于antd4+mobx封装的业务组件",
   "main": "index.js",
   "scripts": {
