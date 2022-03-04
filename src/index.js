@@ -7,6 +7,10 @@ export { default as Upload } from "./Upload";
 export { default as Export } from "./Export";
 export { default as App } from './App'
 export { default as AppLayout } from "./AppLayout";
+export { default as Image } from "./Image";
+
+
+
 
 
 
