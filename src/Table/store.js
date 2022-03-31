@@ -67,9 +67,8 @@ class TableStore {
   // 获取最终请求的参数（查询参数+分页参数）
   getFinalParams = () => {
     const searchParams = this.getParams();
-    let finalParams;
     const { current, pageSize } = this.pagination;
-    finalParams = {
+    const finalParams = {
       ...searchParams,
       pageNum: current,
       pageSize,
@@ -117,8 +116,8 @@ class TableStore {
     this.loading = false;
   };
 
-  // 重置该方法发送请求
-  fetchList = () => {
+  // 业务代码中通过重置该方法发送请求
+  fetchList = (params) => {
     return {
       list: [],
       total: 0,

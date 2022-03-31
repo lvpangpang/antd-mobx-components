@@ -9,7 +9,9 @@ function myTable(props) {
     console.error('store属性必须为TableStore的实例')
     return null
   }
+
   const { rowKey, list, loading, pagination, paging } = tableStore
+
   useEffect(() => {
     tableStore.search()
   }, [tableStore])

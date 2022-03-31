@@ -10,12 +10,10 @@ const filterOption = (input, option) => {
   }
   return false;
 };
-
 function MySelect(props) {
   const {
     showAll,
     mode,
-    type,
     options,
     children,
     checkAllAction,
@@ -40,7 +38,8 @@ function MySelect(props) {
   if (showAll && !showCheckAllAction) {
     allOption = <Option value="">全部</Option>;
   }
-
+  
+  // 全选
   const checkAll = (e) => {
     if (e.target.checked) {
       const allValues = Children.map(child, (node) => {
