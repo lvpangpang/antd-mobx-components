@@ -1,122 +1,129 @@
-import { makeObservable, runInAction, observable } from 'mobx'
-import { omitValues } from 'js-common-library'
-import SearchStore from '../SearchBar/store'
+import { runInAction, makeAutoObservable } from "mobx";
+import { omitValues } from "js-common-library";
+import SearchStore from "../SearchBar/store";
 
+// 重写父类的某些方法，比如发送请求的方法
 function overrideStore(instance, overrides) {
   Object.keys(overrides || {}).forEach((name) => {
-    const desc = Object.getOwnPropertyDescriptor(overrides, name)
-    if (desc.get) {
-      Object.defineProperty(instance, name, desc)
-    } else {
-      instance[name] = overrides[name]
-    }
-  })
+    instance[name] = overrides[name];
+  });
 }
-
 class TableStore {
-  $storeName = 'TABLE_STORE'
+  $storeName = "TABLE_STORE";
+  
   constructor(overrides) {
-    overrideStore(this, overrides)
-    makeObservable(this, {
-      list: observable,
-      loading: observable,
-      pagination: observable,
-    })
+    overrideStore(this, overrides);
+    makeAutoObservable(this);
   }
 
   /* searchBar开始 */
   $searchBarStore = new SearchStore({
     onSearch: () => {
-      this.search() // 点击搜索调用的就是TableStore里面的search方法
+      this.search({ pageNum: 1 }); // 点击搜索页数永远被置为1
     },
-  })
+  });
   // 此方法是暴露给SearchBar组件使用的，为了获取SearchBar自己的store
   getSearchBarStore = () => {
-    return this.$searchBarStore
-  }
-  // 请求参数，暴露给其他操作使用，比如导出
+    return this.$searchBarStore;
+  };
+  // 获取请求参数
   getParams = () => {
-    const searchParams = this.$searchBarStore.getSearchParams()
-    return searchParams
-  }
+    return this.$searchBarStore.getSearchParams();
+  };
   /* searchBar结束 */
 
-  list = []
-  loading = false
+  list = [];
+  loading = false;
 
   // 分页相关
   pagination = {
     current: 1,
     pageSize: 10,
     total: 0,
+    serverPagination: true,
     showTotal: (total) => `共 ${total} 条`,
     showQuickJumper: true,
     showSizeChanger: true,
-  }
-  setPagination = (info) => {
+  };
+  setPagination = (data) => {
     this.pagination = {
       ...this.pagination,
-      ...info,
-    }
-  }
+      ...data,
+    };
+  };
+  getPagination = () => {
+    return this.pagination;
+  };
   paging = ({ current, pageSize }) => {
+    const { serverPagination } = this.getPagination();
     this.setPagination({
       current,
       pageSize,
-    })
-    this.search()
-  }
+    });
+    // 判断是否需要服务端分页
+    if (serverPagination) this.search();
+  };
 
-  // 获取最终请求的参数（查询参数加分页相关的参数）
+  // 获取最终请求的参数（查询参数+分页参数）
   getFinalParams = () => {
-    const searchParams = this.$searchBarStore.getSearchParams()
-    let finalParams
-    const { current, pageSize } = this.pagination
+    const searchParams = this.getParams();
+    let finalParams;
+    const { current, pageSize } = this.pagination;
     finalParams = {
       ...searchParams,
       pageNum: current,
       pageSize,
-    }
-    return omitValues(finalParams)
-  }
+    };
+    return omitValues(finalParams);
+  };
 
   // 搜索请求
-  search = async () => {
-    const finalParams = this.getFinalParams()
-    const defaultData = {
-      list: [],
-      total: 0,
+  search = async (params = {}) => {
+    const finalParams = this.getFinalParams();
+    const { pageNum } = params;
+    if (pageNum) {
+      finalParams.pageNum = pageNum;
     }
     try {
-      this.loading = true
-      const data = await this.fetchList(finalParams)
+      this.loading = true;
+      const data = await this.fetchList(finalParams);
       runInAction(() => {
-        this.afterSearch(data || defaultData, finalParams)
-      })
+        this.afterSearch(data, finalParams);
+      });
     } catch (e) {
       runInAction(() => {
-        this.afterSearch(defaultData, finalParams)
-      })
+        this.afterSearch(
+          {
+            list: [],
+            total: 0,
+          },
+          finalParams
+        );
+      });
     }
-  }
+  };
 
   // 请求结果处理
-  afterSearch = (data) => {
-    let { list, total } = data
+  afterSearch = (data, finalParams) => {
+    const { list, total } = data;
+    const { pageNum, pageSize } = finalParams;
     this.setPagination({
-      total,
-    })
-    this.list = list || []
-    this.loading = false
-  }
+      serverPagination: !!total,
+      current: pageNum,
+      pageSize,
+      total: total || list.length,
+    });
+    this.list = list || [];
+    this.loading = false;
+  };
 
-  // 重新该方法发请求
+  // 重置该方法发送请求
   fetchList = () => {
     return {
       list: [],
       total: 0,
-    }
-  }
+    };
+  };
 }
 
-export default TableStore
+export default TableStore;

@@ -14,7 +14,7 @@ const store = new SearchBarStore({
   onSearch: (params) => {
     console.log(params); // 获取到搜索条件对象
   },
-  down: () => {
+  export: () => {
     console.log(store.getSearchParams()); // 实例获取到搜索条件
   },
 });
@@ -23,9 +23,12 @@ export default function Index() {
   return (
     <SearchBar
       store={store}
+      initialValues={{
+        name: '吕肥肥'
+      }}
       extra={
         <>
-          <Button type="primary" onClick={store.down}>
+          <Button type="primary" onClick={store.export}>
             导出
           </Button>
           <Button>新增</Button>
@@ -75,4 +78,4 @@ const store = new SearchBarStore();
 
 store.onSearch() 每次点击搜索都会调用这个方法
 
-store.getSearchParams() 获取SearchBar组件当前的搜索条件对象
+store.getSearchParams() 获取 SearchBar 组件当前的搜索条件对象

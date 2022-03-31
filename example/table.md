@@ -4,36 +4,52 @@
 
 ```jsx
 import React from "react";
-import { Input, Select, DatePicker } from "antd";
+import { Input, Select, DatePicker, Card } from "antd";
 import { getRandomStr } from "js-common-library";
 import { SearchBar, TableStore, Table } from "antd-mobx-components";
 
-function getList() {
+function getList1() {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
-        list: new Array(20).fill("").map((item, index) => ({
+        list: new Array(50).fill("").map((item, index) => ({
           id: index,
           name: getRandomStr(),
           age: getRandomStr(),
           height: getRandomStr(),
           date: getRandomStr(),
         })),
-        total: 20,
+        total: 50,
       });
     }, 1000);
   });
 }
 
-class Store {
+function getList2() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({
+        list: new Array(30).fill("").map((item, index) => ({
+          id: index,
+          name: getRandomStr(),
+          age: getRandomStr(),
+          height: getRandomStr(),
+          date: getRandomStr(),
+        })),
+      });
+    }, 1000);
+  });
+}
+
+class Store1 {
   $table = new TableStore({
     fetchList: async (params) => {
       params = {
         ...params,
-        time: 987987987987,
+        time: 123,
       };
-      console.log(params);
-      const { list, total } = await getList(params);
+      console.log("请求参数：", params);
+      const { list, total } = await getList1(params);
       return {
         list,
         total,
@@ -42,7 +58,25 @@ class Store {
   });
 }
 
-const store = new Store()
+class Store2 {
+  $table = new TableStore({
+    fetchList: async (params) => {
+      params = {
+        ...params,
+        time: 456,
+      };
+      console.log("请求参数：", params);
+      const { list, total } = await getList2(params);
+      return {
+        list,
+        total,
+      };
+    },
+  });
+}
+
+const store1 = new Store1();
+const store2 = new Store2();
 
 const columns = [
   {
@@ -69,34 +103,77 @@ const { Option } = Select;
 export default function Index() {
   return (
     <>
-      <SearchBar
-        store={store}
-        itemCol={{span: 6}}
-        initialValues={{
-          name: "吕肥肥",
-        }}
-      >
-        <Item name="name" label="姓名">
-          <Input />
-        </Item>
-        <Item name="age" label="年龄">
-          <Input />
-        </Item>
-        <Item name="fruit" label="喜欢的水果" col={{span: 12}}>
-          <Select>
-            <Option key="1">西瓜</Option>
-            <Option key="2">橘子</Option>
-            <Option key="3">苹果</Option>
-          </Select>
-        </Item>
-        <Item name="idCard" label="身份证">
-          <Input />
-        </Item>
-        <Item name="time" label="时间">
-          <DatePicker />
-        </Item>
-      </SearchBar>
-      <Table store={store} columns={columns} />
+      <Card title="服务端分页">
+        <SearchBar
+          store={store1}
+          itemCol={{ span: 6 }}
+          initialValues={{
+            name: "吕肥肥",
+          }}
+        >
+          <Item name="name" label="姓名">
+            <Input />
+          </Item>
+          <Item name="age" label="年龄">
+            <Input />
+          </Item>
+          <Item
+            name="fruit"
+            label="喜欢的水果"
+            labelCol={{ span: 12 }}
+            wrapperCol={{ span: 12 }}
+          >
+            <Select>
+              <Option key="1">西瓜</Option>
+              <Option key="2">橘子</Option>
+              <Option key="3">苹果</Option>
+            </Select>
+          </Item>
+          <Item name="idCard" label="身份证">
+            <Input />
+          </Item>
+          <Item name="time" label="时间">
+            <DatePicker />
+          </Item>
+        </SearchBar>
+        <Table store={store1} columns={columns} />
+      </Card>
+
+      <Card title="前端分页" style={{ marginTop: 30 }}>
+        <SearchBar
+          store={store2}
+          itemCol={{ span: 6 }}
+          initialValues={{
+            name: "吕肥肥",
+          }}
+        >
+          <Item name="name" label="姓名">
+            <Input />
+          </Item>
+          <Item name="age" label="年龄">
+            <Input />
+          </Item>
+          <Item
+            name="fruit"
+            label="喜欢的水果"
+            labelCol={{ span: 12 }}
+            wrapperCol={{ span: 12 }}
+          >
+            <Select>
+              <Option key="1">西瓜</Option>
+              <Option key="2">橘子</Option>
+              <Option key="3">苹果</Option>
+            </Select>
+          </Item>
+          <Item name="idCard" label="身份证">
+            <Input />
+          </Item>
+          <Item name="time" label="时间">
+            <DatePicker />
+          </Item>
+        </SearchBar>
+        <Table store={store2} columns={columns} />
+      </Card>
     </>
   );
 }

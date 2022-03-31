@@ -5,7 +5,6 @@ import { SearchOutlined, RollbackOutlined } from '@ant-design/icons'
 import './index.less'
 import SearchBarItem from './Item'
 import SearchContext from './context'
-
 function SearchBar(props) {
   const {
     style,
