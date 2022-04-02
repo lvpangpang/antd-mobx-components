@@ -1,4 +1,4 @@
-import { makeObservable } from "mobx";
+import { makeAutoObservable } from "mobx";
 import { omitValues } from "js-common-library";
 
 function overrideStore(instance, overrides) {
@@ -11,7 +11,7 @@ class SearchStore {
   
   constructor(overrides) {
     overrideStore(this, overrides);
-    makeObservable(this, {});
+    makeAutoObservable(this);
   }
 
   // form相关
