@@ -11,17 +11,28 @@ function Export(props) {
       const data = await http.get(url, {
         params,
         responseType: "blob",
-        transformResult: (res) => {
-          return res.data ?? res;
-        },
       });
-      // blob生成文件下载
+      console.log(data);
       if (data) {
-        const link = document.createElement("a");
-        link.download = name;
-        link.href = window.URL.createObjectURL(data);
-        link.click();
-        window.URL.revokeObjectURL(link.href);
+        // 导出错误信息提示
+        if (data.type.includes("application/json")) {
+          let reader = new FileReader();
+          reader.onload = (e) => {
+            if (e.target.readyState === 2) {
+              let backJson = JSON.parse(e.target.result);
+              message.destroy();
+              message.error(`${backJson.msg}`, 5);
+              return Promise.reject(backJson);
+            }
+          };
+          reader.readAsText(response.data);
+        } else {
+          const link = document.createElement("a");
+          link.download = name;
+          link.href = window.URL.createObjectURL(data);
+          link.click();
+          window.URL.revokeObjectURL(link.href);
+        }
       }
     } catch (err) {
       message.error("导出失败，请重试");
