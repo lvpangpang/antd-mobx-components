@@ -46,7 +46,7 @@ class Store1 {
     fetchList: async (params) => {
       params = {
         ...params,
-        time: 123,
+        num: 123,
       };
       console.log("请求参数：", params);
       const { list, total } = await getList1(params);
@@ -63,7 +63,7 @@ class Store2 {
     fetchList: async (params) => {
       params = {
         ...params,
-        time: 456,
+        num: 456,
       };
       console.log("请求参数：", params);
       const { list, total } = await getList2(params);

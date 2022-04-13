@@ -1,6 +1,6 @@
 {
   "name": "antd-mobx-components",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "基于antd4+mobx封装的后台业务组件",
   "main": "index.js",
   "scripts": {
@@ -16,7 +16,7 @@
   "dependencies": {
     "@ant-design/icons": "4.7.0",
     "antd": "4.16.2",
-    "js-common-library": "1.3.1",
+    "js-common-library": "1.3.2",
     "mobx": "6.3.2",
     "mobx-react-lite": "3.2.0",
     "rc-image": "5.2.4",

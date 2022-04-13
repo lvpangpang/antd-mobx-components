@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
-import { Button, Form, Space, Row } from 'antd'
-import { observer } from 'mobx-react-lite'
-import { SearchOutlined, RollbackOutlined } from '@ant-design/icons'
-import './index.less'
-import SearchBarItem from './Item'
-import SearchContext from './context'
+import React, { useEffect } from "react";
+import { Button, Form, Space, Row } from "antd";
+import { observer } from "mobx-react-lite";
+import { SearchOutlined, RollbackOutlined } from "@ant-design/icons";
+import "./index.less";
+import SearchBarItem from "./Item";
+import SearchContext from "./context";
 function SearchBar(props) {
   const {
     style,
@@ -16,44 +16,48 @@ function SearchBar(props) {
     cache = true,
     showSearch = true,
     searchButtonProps,
-    searchButtonText = '搜索',
+    searchButtonText = "搜索",
     showRest = true,
     restButtonProps,
-    restButtonText = '重置',
+    restButtonText = "重置",
     ...restProps
-  } = props
+  } = props;
 
   // 当配合table使用的时候，store为TableStore的实例，需要通过调用getSearchBarStore方法获取SearchBar的store实例
-  let searchBarStore = store.$table ? store.$table.getSearchBarStore() : store
+  let searchBarStore = store.$table ? store.$table.getSearchBarStore() : store;
 
-  const [form] = Form.useForm()
-
-  searchBarStore.setFormInstance(form)
-  searchBarStore.setSearchParams({ ...initialValues, ...searchBarStore.searchParams })
+  const [form] = Form.useForm();
 
   const hanleSearch = () => {
-    searchBarStore.search()
-  }
+    searchBarStore.search();
+  };
 
   const handleRest = () => {
-    searchBarStore.reset()
-  }
+    searchBarStore.reset();
+  };
 
   useEffect(() => {
+    searchBarStore.setFormInstance(form);
+    searchBarStore.setSearchParams({
+      ...initialValues,
+      ...searchBarStore.searchParams,
+    });
     if (cache && searchBarStore) {
-      form.setFieldsValue(searchBarStore.searchParams)
+      form.setFieldsValue(searchBarStore.searchParams);
       return () => {
         if (!cache && searchBarStore) {
-          searchBarStore.reset()
+          searchBarStore.reset();
         }
-      }
+      };
     }
-  }, [])
+  }, []);
 
   return (
-    <SearchContext.Provider value={{
-      itemCol
-    }}>
+    <SearchContext.Provider
+      value={{
+        itemCol,
+      }}
+    >
       <Form
         form={form}
         initialValues={initialValues}
@@ -75,7 +79,11 @@ function SearchBar(props) {
             </Button>
           )}
           {showRest && (
-            <Button icon={<RollbackOutlined />} onClick={handleRest} {...restButtonProps}>
+            <Button
+              icon={<RollbackOutlined />}
+              onClick={handleRest}
+              {...restButtonProps}
+            >
               {restButtonText}
             </Button>
           )}
@@ -83,8 +91,8 @@ function SearchBar(props) {
         </Space>
       </Form>
     </SearchContext.Provider>
-  )
+  );
 }
 
-SearchBar.Item = SearchBarItem
-export default observer(SearchBar)
+SearchBar.Item = SearchBarItem;
+export default observer(SearchBar);
