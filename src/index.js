@@ -8,6 +8,8 @@ export { default as Export } from "./Export";
 export { default as App } from './App'
 export { default as AppLayout } from "./AppLayout";
 export { default as Image } from "./Image";
+export { default as Button } from "./Button";
+
 
 
 
