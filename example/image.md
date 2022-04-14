@@ -13,7 +13,7 @@ function Index() {
     <>
       <Card title="一张图片">
         <Image
-          src="https://img.iplaysoft.com/wp-content/uploads/2019/free-images/free_stock_photo.jpg"
+          src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
           width={200}
         ></Image>
       </Card>
@@ -27,10 +27,7 @@ function Index() {
             src="http://static.runoob.com/images/demo/demo2.jpg"
             width={200}
           ></Image>
-          <Image
-            src="https://img.iplaysoft.com/wp-content/uploads/2019/free-images/free_stock_photo.jpg"
-            width={200}
-          ></Image>
+         
         </PreviewGroup>
       </Card>
     </>

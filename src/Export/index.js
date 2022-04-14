@@ -12,7 +12,6 @@ function Export(props) {
         params,
         responseType: "blob",
       });
-      console.log(data);
       if (data) {
         // 导出错误信息提示
         if (data.type.includes("application/json")) {
@@ -21,11 +20,10 @@ function Export(props) {
             if (e.target.readyState === 2) {
               let backJson = JSON.parse(e.target.result);
               message.destroy();
-              message.error(`${backJson.msg}`, 5);
-              return Promise.reject(backJson);
+              message.error(`${backJson.msg}`);
             }
           };
-          reader.readAsText(response.data);
+          reader.readAsText(data);
         } else {
           const link = document.createElement("a");
           link.download = name;

@@ -10,7 +10,7 @@ import { Button, Card } from "antd";
 
 http.setConfig({
   headers: {
-    "skio-token": 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJib3NzX2F1dGhfaXNzdWVyIiwiY29udGV4dElkIjoiZHNzIiwiZXhwIjoxNjQ5Njg2Mzg2LCJ1c2VySWQiOjcxMn0.IkUhWQRFuTVP3N5KDmTL_5UTh8_Drrq1cCRHd-NxBaw',
+    "skio-token": 'eJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJib3NzX2F1dGhfaXNzdWVyIiwiY29udGV4dElkIjoiZHNzIiwiZXhwIjoxNjQ5OTQ2NDI3LCJ1c2VySWQiOjcxMn0.ubrM2zQG-GYwu076b8D-mXhyWguBaaeXE3lxQfe0ezs',
     contextid: 'dss'
   },
 });
