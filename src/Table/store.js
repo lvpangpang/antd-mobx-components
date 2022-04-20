@@ -1,4 +1,4 @@
-import { runInAction, makeAutoObservable } from "mobx";
+import { makeAutoObservable } from "mobx";
 import { omitValues } from "js-common-library";
 import SearchStore from "../SearchBar/store";
 
@@ -10,7 +10,7 @@ function overrideStore(instance, overrides) {
 }
 class TableStore {
   $storeName = "TABLE_STORE";
-  
+
   constructor(overrides) {
     overrideStore(this, overrides);
     makeAutoObservable(this);
@@ -86,19 +86,15 @@ class TableStore {
     try {
       this.loading = true;
       const data = await this.fetchList(finalParams);
-      runInAction(() => {
-        this.afterSearch(data, finalParams);
-      });
+      this.afterSearch(data, finalParams);
     } catch (e) {
-      runInAction(() => {
-        this.afterSearch(
-          {
-            list: [],
-            total: 0,
-          },
-          finalParams
-        );
-      });
+      this.afterSearch(
+        {
+          list: [],
+          total: 0,
+        },
+        finalParams
+      );
     }
   };
 
