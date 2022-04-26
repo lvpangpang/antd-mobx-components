@@ -1,11 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import { omitValues } from "js-common-library";
-
-function overrideStore(instance, overrides) {
-  Object.keys(overrides || {}).forEach((name) => {
-    instance[name] = overrides[name];
-  });
-}
+import { overrideStore } from '../utils'
 class SearchStore {
   $storeName = "SEARCHBAR_STORE";
   

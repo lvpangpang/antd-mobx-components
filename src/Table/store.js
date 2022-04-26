@@ -1,13 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import { omitValues } from "js-common-library";
 import SearchStore from "../SearchBar/store";
-
-// 重写父类的某些方法，比如发送请求的方法
-function overrideStore(instance, overrides) {
-  Object.keys(overrides || {}).forEach((name) => {
-    instance[name] = overrides[name];
-  });
-}
+import { overrideStore } from "../utils";
 class TableStore {
   $storeName = "TABLE_STORE";
 
