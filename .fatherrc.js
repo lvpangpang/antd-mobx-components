@@ -1,4 +1,4 @@
 export default {
   esm: "babel",
-  lessInBabelMode: true,
+  // lessInBabelMode: true,
 };
