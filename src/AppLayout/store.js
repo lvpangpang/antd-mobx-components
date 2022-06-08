@@ -4,6 +4,7 @@ class Store {
   constructor() {
     makeAutoObservable(this);
   }
+
   topId = null;
   setTopId = (id) => {
     this.topId = id;
@@ -28,6 +29,7 @@ class Store {
   setSiderId = (id) => {
     this.siderId = id;
   };
+  
   siderClick = (history, data) => {
     this.setSiderId(data.id);
     history.push(data?.path);

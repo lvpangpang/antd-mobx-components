@@ -14,7 +14,7 @@ export default function Fallback() {
             {rows.map((item, index) => {
               return (
                 <div
-                  style={{ width: `${getRandomInt(75, 95)}%` }}
+                  style={{ width: `${getRandomInt(80, 95)}%` }}
                   key={index}
                   className="row app-loading"
                 />

@@ -38,6 +38,7 @@ class SearchStore {
     this.onSearch(this.searchParams);
   };
 
+  // 实例覆盖这个方法来发生请求
   onSearch = () => {};
 }
 

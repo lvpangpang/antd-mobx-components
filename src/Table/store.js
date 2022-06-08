@@ -106,7 +106,7 @@ class TableStore {
     this.loading = false;
   };
 
-  // 业务代码中通过重置该方法发送请求
+  // 业务代码中通过覆盖该方法发送请求
   fetchList = (params) => {
     return {
       list: [],
