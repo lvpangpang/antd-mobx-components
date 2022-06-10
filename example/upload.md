@@ -12,7 +12,7 @@ http.setConfig({
   headers: {
     contextId: "dss",
     "skio-token":
-      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJib3NzX2F1dGhfaXNzdWVyIiwiY29udGV4dElkIjoiZHNzIiwiZXhwIjoxNjQ1NDU3NTkzLCJ1c2VySWQiOjcxMn0.baSf5nsT-Wskik3wXYUFVn_4PFnCSGY1oYbK5QzjNbM",
+      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJib3NzX2F1dGhfaXNzdWVyIiwiY29udGV4dElkIjoiZHNzIiwiZXhwIjoxNjU0ODkxODg1LCJ1c2VySWQiOjcxMn0.sxQkkexFicCKMeXtIz0dAxaG3h9XuQV3hkY592B6tzo",
   },
 });
 

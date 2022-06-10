@@ -1,13 +1,14 @@
 import { message } from "antd";
+import { v4 as uuidv4 } from "uuid";
 import { isFun, http, isArr } from "js-common-library";
 
 // 转成fileList需要的对象结构
 export function transformToFileObj(item) {
   return {
-    status: 'done',
+    status: "done",
     name: item.name || item.url,
     url: item.url,
-  }
+  };
 }
 
 // 初始化数据转化格式
@@ -106,16 +107,15 @@ export async function getOSSConfig(getConfig) {
 
 // oss上传文件
 export async function uploadOSS(file, config) {
-  const { onProgress, onSuccess, onError, getConfig, dirname } =
-    config || {};
+  const { onProgress, onSuccess, onError, getConfig, dirname } = config || {};
   try {
-    const fileName = file.name;
+    const fileName = uuidv4() + "_" + file.name;
     const uploadName = dirname ? dirname + "/" + fileName : fileName;
 
     const { securityToken, ...ossConfig } = await getOSSConfig(getConfig);
     if (!securityToken) {
       message.destroy();
-      message.error('获取OSS配置失败')
+      message.error("获取OSS配置失败");
       return onError({
         msg: "获取OSS配置失败",
       });
@@ -132,16 +132,15 @@ export async function uploadOSS(file, config) {
         onProgress?.({
           percent: percent * 100,
         });
-      }
+      },
     });
     const { res, name } = result;
-    const url = client.signatureUrl(uploadName)
+    const url = client.signatureUrl(uploadName);
     onSuccess({
       url,
       name,
-      resquestUrls: res.requestUrls
+      resquestUrls: res.requestUrls,
     });
-
   } catch (err) {
     message.error("上传出错，请重试");
     onError({ error: err, msg: "上传出错，请重试" });
