@@ -4,7 +4,7 @@
 
 ```jsx
 import React from "react";
-import { Input, Select, DatePicker, Card } from "antd";
+import { Input, Select, DatePicker, Card, Button } from "antd";
 import { getRandomStr } from "js-common-library";
 import { SearchBar, TableStore, Table } from "antd-mobx-components";
 
@@ -49,6 +49,7 @@ class Store1 {
         num: 123,
       };
       console.log("请求参数：", params);
+      console.log("选择项：", this.$table.getSelected().keys);
       const { list, total } = await getList1(params);
       return {
         list,
@@ -136,7 +137,7 @@ export default function Index() {
             <DatePicker />
           </Item>
         </SearchBar>
-        <Table store={store1} columns={columns} />
+        <Table store={store1} columns={columns} selectTable />
       </Card>
 
       <Card title="前端分页" style={{ marginTop: 30 }}>
@@ -184,6 +185,8 @@ export default function Index() {
 | 属性  | 说明                        | 类型   | 默认值 |
 | ----- | --------------------------- | ------ | ------ |
 | store | TableStore 实例对象（必须） | object | null   |
+| selectTable | 选择配置项 | object | null   |
+
 
 其他 API 参考 antd-Table 组件文档
 

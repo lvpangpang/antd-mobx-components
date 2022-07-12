@@ -3,14 +3,16 @@ import { omitValues } from "js-common-library";
 import SearchStore from "../SearchBar/store";
 import { overrideStore } from "../utils";
 class TableStore {
+  
   $storeName = "TABLE_STORE";
-
   constructor(overrides) {
     overrideStore(this, overrides);
     makeAutoObservable(this);
   }
 
-  /* searchBar开始 */
+  /* 
+    searchBar 
+  */
   $searchBarStore = new SearchStore({
     onSearch: () => {
       this.search({ pageNum: 1 }); // 点击搜索页数永远被置为1
@@ -20,16 +22,14 @@ class TableStore {
   getSearchBarStore = () => {
     return this.$searchBarStore;
   };
-  // 获取请求参数
+  // 获取搜索参数
   getParams = () => {
     return this.$searchBarStore.getSearchParams();
   };
-  /* searchBar结束 */
 
-  list = [];
-  loading = false;
-
-  // 分页相关
+  /* 
+    列表分页 
+  */
   pagination = {
     current: 1,
     pageSize: 10,
@@ -57,8 +57,7 @@ class TableStore {
     // 判断是否需要服务端分页
     if (serverPagination) this.search();
   };
-
-  // 获取最终请求的参数（查询参数+分页参数）
+  // 获取最终请求的参数（搜索参数+分页参数）
   getFinalParams = () => {
     const searchParams = this.getParams();
     const { current, pageSize } = this.pagination;
@@ -70,7 +69,11 @@ class TableStore {
     return omitValues(finalParams);
   };
 
-  // 搜索请求
+  /*  
+    请求 
+  */
+  list = [];
+  loading = false;
   search = async (params = {}) => {
     const finalParams = this.getFinalParams();
     const { pageNum } = params;
@@ -91,7 +94,6 @@ class TableStore {
       );
     }
   };
-
   // 请求结果处理
   afterSearch = (data, finalParams) => {
     const { list, total } = data;
@@ -105,13 +107,32 @@ class TableStore {
     this.list = list || [];
     this.loading = false;
   };
-
-  // 业务代码中通过覆盖该方法发送请求
+  // 业务代码请求
   fetchList = (params) => {
     return {
       list: [],
       total: 0,
     };
+  };
+
+  /* 
+    列表选择 
+  */
+  selectedRowKeys = [];
+  selectedRows = [];
+  setSelected = (keys, selectedRows) => {
+    this.selectedRowKeys = keys;
+    this.selectedRows = selectedRows;
+  };
+  getSelected = () => {
+    return {
+      rows: this.selectedRows,
+      keys: this.selectedRowKeys,
+    };
+  };
+  clearSelected = () => {
+    this.selectedRowKeys = [];
+    this.selectedRows = [];
   };
 }
 

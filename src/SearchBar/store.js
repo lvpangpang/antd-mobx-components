@@ -1,15 +1,17 @@
 import { makeAutoObservable } from "mobx";
 import { omitValues } from "js-common-library";
-import { overrideStore } from '../utils'
+import { overrideStore } from "../utils";
 class SearchStore {
-  $storeName = "SEARCHBAR_STORE";
   
+  $storeName = "SEARCHBAR_STORE";
   constructor(overrides) {
     overrideStore(this, overrides);
     makeAutoObservable(this);
   }
 
-  // form相关
+  /* 
+    from
+  */
   form = null;
   setFormInstance = (form) => {
     this.form = form;
@@ -18,7 +20,9 @@ class SearchStore {
     return this.form;
   };
 
-  // 搜索条件
+  /* 
+    搜索条件 
+  */
   searchParams = {};
   setSearchParams = (params) => {
     this.searchParams = omitValues(params);
@@ -28,17 +32,21 @@ class SearchStore {
     return this.searchParams;
   };
 
-  // 动作
+  /* 
+    操作
+  */
   reset = () => {
     this.setSearchParams({});
-    this.getFormInstance().resetFields(); // 这样才能视图同步清除
+    this.getFormInstance().resetFields();
   };
   search = () => {
     this.getSearchParams();
     this.onSearch(this.searchParams);
   };
 
-  // 实例覆盖这个方法来发生请求
+  /* 
+    实例请求 
+  */
   onSearch = () => {};
 }
 

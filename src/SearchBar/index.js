@@ -7,6 +7,8 @@ import SearchBarItem from "./Item";
 import SearchContext from "./context";
 function SearchBar(props) {
   const {
+    labelCol = { span: 9 },
+    wrapperCol = { span: 15 },
     style,
     store,
     extra,
@@ -61,8 +63,8 @@ function SearchBar(props) {
       <Form
         form={form}
         initialValues={initialValues}
-        labelCol={{ span: 9 }}
-        wrapperCol={{ span: 15 }}
+        labelCol={labelCol}
+        wrapperCol={wrapperCol}
         className="searchBar"
         {...restProps}
       >
