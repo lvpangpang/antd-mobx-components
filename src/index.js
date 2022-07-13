@@ -12,4 +12,5 @@ export { useAppLayoutInfo } from "./AppLayout/context";
 export { default as View } from "./View";
 export { default as Image } from "./Image";
 export { default as Button } from "./Button";
+export { default as DatePicker } from "./DatePicker";
 export { resetStore } from "./utils";

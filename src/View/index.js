@@ -4,7 +4,7 @@ import './index.less'
 
 const { Item } = Breadcrumb
 
-function Index(props) {
+function View(props) {
   const { children, current = [] } = props
   const list = useAppLayoutInfo().concat(current)
   return (
@@ -19,4 +19,4 @@ function Index(props) {
   )
 }
 
-export default Index
+export default View
