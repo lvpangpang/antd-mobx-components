@@ -21,3 +21,4 @@ function App(props) {
 
 export { useAppInfo }
 export default App
+
