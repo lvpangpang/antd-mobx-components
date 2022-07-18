@@ -14,7 +14,7 @@ function App(props) {
     }
   }, [])
   return (
-    // 存放一些全局的信息，比如所有下拉框的数据源
+    // 存放一些全局的信息
     <AppProvider value={provider}>{id ? children : <Loading></Loading>}</AppProvider>
   )
 }

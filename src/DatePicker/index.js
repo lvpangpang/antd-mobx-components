@@ -10,7 +10,7 @@ function MyPicker(props) {
     return <Picker {...restProps}></Picker>;
   }
   return (
-    <div className="my-picker">
+    <div className="app-picker">
       {addonBefore}
       <Picker {...restProps}></Picker>
     </div>

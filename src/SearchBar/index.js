@@ -65,7 +65,7 @@ function SearchBar(props) {
         initialValues={initialValues}
         labelCol={labelCol}
         wrapperCol={wrapperCol}
-        className="searchBar"
+        className="app-search-bar"
         {...restProps}
       >
         <Row>{children}</Row>

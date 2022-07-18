@@ -1,6 +1,7 @@
 import { Select, Divider, Checkbox } from "antd";
 import { isStr, isArr } from "js-common-library";
 import { Children } from "react";
+import { useAppInfo } from "../App/context";
 
 const { Option, OptGroup } = Select;
 
@@ -12,6 +13,7 @@ const filterOption = (input, option) => {
 };
 function MySelect(props) {
   const {
+    type,
     showAll,
     mode,
     options,
@@ -22,12 +24,23 @@ function MySelect(props) {
     ...restProps
   } = props;
 
+  const { baseTypes = {} } = useAppInfo();
+  let typeList = [];
+
+  if (isStr(type)) {
+    typeList = options || baseTypes[type] || []
+  }
+
   const child =
     children ||
-    options.map((item) => {
+    typeList.map((item) => {
       let value = item.value || item.key;
       let label = item.label;
-      return <Option value={value} key={value}>{label}</Option>;
+      return (
+        <Option value={value} key={value}>
+          {label}
+        </Option>
+      );
     });
 
   const optionCount = Children.count(child);
@@ -38,7 +51,7 @@ function MySelect(props) {
   if (showAll && !showCheckAllAction) {
     allOption = <Option value="">全部</Option>;
   }
-  
+
   // 全选
   const checkAll = (e) => {
     if (e.target.checked) {
