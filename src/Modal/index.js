@@ -1,7 +1,7 @@
 import { Modal } from "antd";
 import { observer } from "mobx-react-lite";
+import { useEffect } from "react";
 import ModalStore from "./store";
-
 function MyModal(props) {
   const { store, children, ...restProps } = props;
   const $modalStore = store.$modalStore || store;
@@ -9,7 +9,12 @@ function MyModal(props) {
     console.error("Modal必须传入store且必须是ModalStore的实例");
     return null;
   }
-  const { visible, loading, handleOk, close } = $modalStore;
+  const { visible, loading, handleOk, close, resetStore } = $modalStore;
+  useEffect(() => {
+    return () => {
+      resetStore();
+    };
+  }, []);
   return (
     <Modal
       visible={visible}

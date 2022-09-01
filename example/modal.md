@@ -3,10 +3,13 @@
 ## 实例
 
 ```jsx
-import React, { useState, useRef } from "react";
+import React, { useEffect } from "react";
 import { observer } from "mobx-react-lite";
+import { Form, Input } from "antd";
 import { Modal, Button, ModalStore } from "antd-mobx-components";
 
+const { Item } = Form;
+const [form] = Form.useForm();
 const getDetail = function () {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -19,20 +22,23 @@ const submitData = function () {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve();
-    }, 1000);
+    }, 2000);
   });
 };
 
 const store = new ModalStore({
   onOpen: async (values) => {
     await getDetail();
+    form.setFieldsValue({
+      name: Math.random(),
+    });
     return {
-      name: "1111",
+      name: "",
     };
   },
-  onOk: async (values) => {
-    console.log(values);
-    await submitData(values);
+  onOk: async (openValues) => {
+    const values = await form.validateFields();
+    await submitData(values, openValues);
     store.close();
   },
 });
@@ -40,12 +46,20 @@ const store = new ModalStore({
 function Index() {
   return (
     <>
-      <Modal store={store}>
-        {JSON.stringify(store.openValues)}
+      <Modal store={store} title="编辑">
+        <Form form={form}>
+          <Item
+            name="name"
+            rules={[{ required: true, message: "Please input your username!" }]}
+          >
+            <Input />
+          </Item>
+        </Form>
       </Modal>
       <Button
         type="primary"
         onClick={() => {
+          form.resetFields();
           store.open({ id: 1 });
         }}
       >
@@ -59,8 +73,8 @@ export default observer(Index);
 
 ## API
 
-| 属性  | 说明              | 类型 | 默认值 | 是否必须 |
-| ----- | ----------------- | ---- | ------ | -------- |
-| store | ModalStore实例 |      |        | 是       |
+| 属性  | 说明            | 类型 | 默认值 | 是否必须 |
+| ----- | --------------- | ---- | ------ | -------- |
+| store | ModalStore 实例 |      |        | 是       |
 
 其他 API 参考 antd-Modal 组件文档

@@ -2,7 +2,9 @@ import { makeAutoObservable } from "mobx";
 import { isPromise } from "js-common-library";
 import { overrideStore, resetStore } from "../utils";
 
+const MODAL_STORE = '__MODAL_STORE__'
 class ModalStore {
+  $storeName = MODAL_STORE
   constructor(overrides) {
     overrideStore(this, overrides);
     makeAutoObservable(this);
@@ -17,7 +19,6 @@ class ModalStore {
     this.visible = true;
     this.openValues = data;
     this.openValues = await this.onOpen(data);
-    console.log("openValues", this.openValues);
   };
 
   loading = false;
