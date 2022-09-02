@@ -41,6 +41,16 @@ const store = new ModalStore({
     await submitData(values, openValues);
     store.close();
   },
+  onOk: (openValues) => {
+    return form
+      .validateFields()
+      .then((values) => {
+        return submitData(values, openValues);
+      })
+      .then(() => {
+        store.close();
+      });
+  },
 });
 
 function Index() {

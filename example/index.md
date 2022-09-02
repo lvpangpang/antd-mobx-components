@@ -7,6 +7,6 @@
 ```html
 <link
   rel="stylesheet"
-  href="//static-venus.shandiantech.com/common/antd@4.16.2.css"
+  href="//unpkg.com/antd@4.16.2/dist/antd.min.css"
 />
 ```
