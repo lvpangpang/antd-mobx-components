@@ -4,7 +4,7 @@ import Loading from './Loading'
 import AppProvider, { useAppInfo } from './context'
 
 function App(props) {
-  const { id, children, init, isLogin = () => true, provider = {} } = props
+  const { id, init, isLogin = () => true, provider = {}, children } = props
   useEffect(() => {
     if (isFun(isLogin) && !isLogin()) {
       return (window.location.href = '/login')
@@ -14,7 +14,6 @@ function App(props) {
     }
   }, [])
   return (
-    // 存放一些全局的信息
     <AppProvider value={provider}>{id ? children : <Loading></Loading>}</AppProvider>
   )
 }

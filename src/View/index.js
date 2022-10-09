@@ -1,6 +1,6 @@
-import { Breadcrumb } from 'antd'
-import { useAppLayoutInfo } from '../AppLayout'
-import './index.less'
+import { Breadcrumb } from "antd"
+import { useAppLayoutInfo } from "../AppLayout"
+import "./index.less"
 
 const { Item } = Breadcrumb
 

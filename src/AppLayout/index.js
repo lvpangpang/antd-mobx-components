@@ -4,7 +4,7 @@ import './index.less'
 import { useAppLayoutInfo } from './context'
 
 function AppLayout(props) {
-  const { children, logo, menuConfig, extra } = props
+  const { logo, menuConfig, extra, children } = props
   return (
     <div className="app-layout">
       <div className="app-sider">

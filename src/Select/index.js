@@ -24,11 +24,11 @@ function MySelect(props) {
     ...restProps
   } = props;
 
-  const { baseTypes = {} } = useAppInfo();
-  let typeList = [];
+  const { baseTypes = {} } = useAppInfo() || {};
+  let typeList = options || [];
 
   if (isStr(type)) {
-    typeList = options || baseTypes[type] || []
+    typeList = baseTypes[type]
   }
 
   const child =

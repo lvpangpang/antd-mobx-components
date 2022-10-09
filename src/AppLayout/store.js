@@ -20,18 +20,18 @@ class Store {
     this.sideNavMenu = list;
   };
 
-  openIdList = [];
-  setOpenIdList = (list) => {
-    this.openIdList = list;
+  openKeys = [];
+  setOpenKeys = (list) => {
+    this.openKeys = list;
   };
 
-  siderId;
-  setSiderId = (id) => {
-    this.siderId = id;
+  selectedKeys;
+  setSelectedKeys = (id) => {
+    this.selectedKeys = id;
   };
   
   siderClick = (history, data) => {
-    this.setSiderId(data.id);
+    this.setSelectedKeys(data?.id);
     history.push(data?.path);
   };
 }

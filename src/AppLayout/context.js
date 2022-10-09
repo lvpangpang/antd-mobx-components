@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react'
 
-export const AppLayoutCtx = createContext()
+export const AppLayoutCtx = createContext([])
 
 export const useAppLayoutInfo = () => {
   return useContext(AppLayoutCtx)
