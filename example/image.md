@@ -3,11 +3,11 @@
 ## 实例
 
 ```jsx
-import React, { useState, useRef } from "react";
-import { Card } from "antd";
-import { Image } from "antd-mobx-components";
+import React, { useState, useRef } from "react"
+import { Card } from "antd"
+import { Image } from "antd-mobx-components"
 
-const { PreviewGroup } = Image;
+const { PreviewGroup } = Image
 function Index() {
   return (
     <>
@@ -27,15 +27,14 @@ function Index() {
             src="http://static.runoob.com/images/demo/demo2.jpg"
             width={200}
           ></Image>
-         
         </PreviewGroup>
       </Card>
     </>
-  );
+  )
 }
-export default Index;
+export default Index
 ```
 
 ## API
 
-参考rc-image文档
+参考 rc-image 文档

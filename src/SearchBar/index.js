@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
-import { Button, Form, Space, Row } from "antd";
-import { observer } from "mobx-react-lite";
-import { SearchOutlined, RollbackOutlined } from "@ant-design/icons";
-import "./index.less";
-import SearchBarItem from "./Item";
-import SearchContext from "./context";
+import React, { useEffect, useRef } from "react"
+import { Button, Form, Space, Row } from "antd"
+import { observer } from "mobx-react-lite"
+import { SearchOutlined, RollbackOutlined } from "@ant-design/icons"
+import "./index.less"
+import SearchBarItem from "./Item"
+import SearchContext from "./context"
 function SearchBar(props) {
   const {
     labelCol = { span: 9 },
@@ -23,36 +23,40 @@ function SearchBar(props) {
     restButtonProps,
     restButtonText = "重置",
     ...restProps
-  } = props;
+  } = props
 
   // 当配合table使用的时候，store为TableStore的实例，需要通过调用getSearchBarStore方法获取SearchBar的store实例
-  let searchBarStore = store.$table ? store.$table.getSearchBarStore() : store;
+  let searchBarStore = store.$table ? store.$table.getSearchBarStore() : store
 
-  const [form] = Form.useForm();
+  const [form] = Form.useForm()
 
+  const searchTimer = useRef(null)
   const hanleSearch = () => {
-    searchBarStore.search();
-  };
+    clearTimeout(searchTimer.current)
+    searchTimer.current = setTimeout(() => {
+      searchBarStore.search()
+    }, 300)
+  }
 
   const handleRest = () => {
-    searchBarStore.reset();
-  };
+    searchBarStore.reset()
+  }
 
   useEffect(() => {
-    searchBarStore.setFormInstance(form);
+    searchBarStore.setFormInstance(form)
     searchBarStore.setSearchParams({
       ...initialValues,
       ...searchBarStore.searchParams,
-    });
+    })
     if (cache && searchBarStore) {
-      form.setFieldsValue(searchBarStore.searchParams);
+      form.setFieldsValue(searchBarStore.searchParams)
       return () => {
         if (!cache && searchBarStore) {
-          searchBarStore.reset();
+          searchBarStore.reset()
         }
-      };
+      }
     }
-  }, []);
+  }, [])
 
   return (
     <SearchContext.Provider
@@ -93,8 +97,8 @@ function SearchBar(props) {
         </Space>
       </Form>
     </SearchContext.Provider>
-  );
+  )
 }
 
-SearchBar.Item = SearchBarItem;
-export default observer(SearchBar);
+SearchBar.Item = SearchBarItem
+export default observer(SearchBar)

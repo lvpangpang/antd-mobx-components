@@ -15,7 +15,7 @@ class TableStore {
   */
   $searchBarStore = new SearchStore({
     onSearch: () => {
-      this.search({ pageNum: 1 }); // 点击搜索页数永远被置为1
+      this.search({ pageNum: 1 }); // 点击搜索调用TableStore的search方法，点击搜索页数永远被置为1
     },
   });
   // 此方法是暴露给SearchBar组件使用的，为了获取SearchBar自己的store

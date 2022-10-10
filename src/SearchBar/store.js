@@ -1,53 +1,52 @@
-import { makeAutoObservable } from "mobx";
-import { omitValues } from "js-common-library";
-import { overrideStore } from "../utils";
+import { makeAutoObservable } from "mobx"
+import { omitValues } from "js-common-library"
+import { overrideStore } from "../utils"
 class SearchStore {
-  
-  $storeName = "SEARCHBAR_STORE";
+  $storeName = "SEARCHBAR_STORE"
   constructor(overrides) {
-    overrideStore(this, overrides);
-    makeAutoObservable(this);
+    overrideStore(this, overrides)
+    makeAutoObservable(this)
   }
 
   /* 
     from
   */
-  form = null;
+  form = null
   setFormInstance = (form) => {
-    this.form = form;
-  };
+    this.form = form
+  }
   getFormInstance = () => {
-    return this.form;
-  };
+    return this.form
+  }
 
   /* 
     搜索条件 
   */
-  searchParams = {};
+  searchParams = {}
   setSearchParams = (params) => {
-    this.searchParams = omitValues(params);
-  };
+    this.searchParams = omitValues(params)
+  }
   getSearchParams = () => {
-    this.setSearchParams(this.getFormInstance().getFieldsValue());
-    return this.searchParams;
-  };
+    this.setSearchParams(this.getFormInstance().getFieldsValue())
+    return this.searchParams
+  }
 
   /* 
     操作
   */
   reset = () => {
-    this.setSearchParams({});
-    this.getFormInstance().resetFields();
-  };
+    this.setSearchParams({})
+    this.getFormInstance().resetFields()
+  }
   search = () => {
-    this.getSearchParams();
-    this.onSearch(this.searchParams);
-  };
+    this.getSearchParams()
+    this.onSearch(this.searchParams)
+  }
 
   /* 
     实例请求 
   */
-  onSearch = () => {};
+  onSearch = () => {}
 }
 
-export default SearchStore;
+export default SearchStore

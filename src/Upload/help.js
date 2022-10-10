@@ -1,6 +1,6 @@
 import { message } from "antd";
 import { v4 as uuidv4 } from "uuid";
-import { isFun, http, isArr } from "js-common-library";
+import { isFun, isArr } from "js-common-library";
 
 // 转成fileList需要的对象结构
 export function transformToFileObj(item) {
@@ -91,13 +91,6 @@ export async function getOSSConfig(getConfig) {
   let config;
   if (isFun(getConfig)) {
     config = await getConfig();
-  } else {
-    // 默认请求STS
-    config = await http.get("/owlc/v1/aliyun/oss/sts/token", {
-      tansfromResult(res) {
-        return res.data?.data;
-      },
-    });
   }
   if (config?.securityToken) {
     return config;

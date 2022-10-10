@@ -1,4 +1,4 @@
-import RcImage from "rc-image";
+import RcImage from "rc-image"
 import {
   CloseOutlined,
   LeftOutlined,
@@ -6,8 +6,8 @@ import {
   RotateLeftOutlined,
   RotateRightOutlined,
   ZoomInOutlined,
-  ZoomOutOutlined
-} from "@ant-design/icons";
+  ZoomOutOutlined,
+} from "@ant-design/icons"
 
 export const icons = {
   rotateLeft: <RotateLeftOutlined />,
@@ -17,10 +17,10 @@ export const icons = {
   close: <CloseOutlined />,
   left: <LeftOutlined />,
   right: <RightOutlined />,
-};
-
-function PreviewGroup(props) {
-  return <RcImage.PreviewGroup icons={icons} {...props}></RcImage.PreviewGroup>;
 }
 
-export default PreviewGroup;
+function PreviewGroup(props) {
+  return <RcImage.PreviewGroup icons={icons} {...props}></RcImage.PreviewGroup>
+}
+
+export default PreviewGroup

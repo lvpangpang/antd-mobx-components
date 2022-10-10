@@ -1,18 +1,18 @@
-import { observer } from "mobx-react-lite";
-import React, { useEffect } from "react";
-import { Table } from "antd";
+import { observer } from "mobx-react-lite"
+import React, { useEffect } from "react"
+import { Table } from "antd"
 
 const style = {
   cursor: "pointer",
   color: "#1890ff",
   marginLeft: 10,
-};
+}
 function MyTable(props) {
-  const { columns, rowKey = "id", store, selectTable, ...restProps } = props;
-  const tableStore = store?.$table;
+  const { columns, rowKey = "id", store, selectTable, ...restProps } = props
+  const tableStore = store?.$table
   if (tableStore?.$storeName !== "TABLE_STORE") {
-    console.error("store属性必须为TableStore的实例");
-    return null;
+    console.error("store属性必须为TableStore的实例")
+    return null
   }
   const title = () => {
     return (
@@ -21,14 +21,14 @@ function MyTable(props) {
         <span
           style={style}
           onClick={() => {
-            setSelected([], []);
+            setSelected([], [])
           }}
         >
           清空
         </span>
       </div>
-    );
-  };
+    )
+  }
 
   const {
     list,
@@ -37,11 +37,11 @@ function MyTable(props) {
     paging,
     selectedRowKeys,
     setSelected,
-  } = tableStore;
+  } = tableStore
 
   useEffect(() => {
-    tableStore.search();
-  }, [tableStore]);
+    tableStore.search()
+  }, [tableStore])
 
   return (
     <Table
@@ -64,7 +64,7 @@ function MyTable(props) {
       }
       {...restProps}
     ></Table>
-  );
+  )
 }
 
-export default observer(MyTable);
+export default observer(MyTable)
