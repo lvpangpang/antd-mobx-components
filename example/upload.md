@@ -105,13 +105,14 @@ export default Index
 
 ## 2 API
 
-| 属性         | 说明                                                          | 类型     | 默认值 | 是否必须 |
-| ------------ | ------------------------------------------------------------- | -------- | ------ | -------- |
-| ref          | Upload 实例，通过和这个对象可以直接获取上传后的 fileList 对象 |          |        |      |
-| maxSize      | 单个文件最大（2 * 1024*1024）                                 | number   |        |
-| maxCount     | 文件总数                                                      | number   | 1      |          |
-| dirname      | 上传文件所在的文件夹                                          | string   |        |          |
-| getOSSConfig | 获取阿里云 sts 配置 ，需要返回 Promise                        | function |        | 必须     |
-| imgLimit     | 图片限制，目前支持 width, height, maxWidth, maxHeight         | object   |        |          |
+| 属性         | 说明                                                                | 类型     | 默认值 | 是否必须 |
+| ------------ | ------------------------------------------------------------------- | -------- | ------ | -------- |
+| value        | 初始值，配合 From 使用的时候请用 Form.Item 的 initialValue 属性代替 |          |        |          |
+| ref          | Upload 实例，通过和这个对象可以直接获取上传后的 fileList 对象       |          |        |          |
+| maxSize      | 单个文件最大（2 * 1024*1024）                                       | number   |        |
+| maxCount     | 文件总数                                                            | number   | 1      |          |
+| dirname      | 上传文件所在的文件夹                                                | string   |        |          |
+| getOSSConfig | 获取阿里云 sts 配置 ，需要返回 Promise                              | function |        | 必须     |
+| imgLimit     | 图片限制，目前支持 width, height, maxWidth, maxHeight               | object   |        |          |
 
 其他 API 参考 antd-Upload 组件文档
