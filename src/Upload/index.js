@@ -15,7 +15,8 @@ const FILE_IGNORE = "FILE_IGNORE" // 是否在fileList中显示的标识
 
 function MyUpload(
   {
-    fileList,
+    value,
+    onChange,
     maxSize,
     children,
     getOSSConfig,
@@ -28,7 +29,7 @@ function MyUpload(
   },
   ref
 ) {
-  const [list, setList] = useState(optimizeValue(fileList))
+  const [list, setList] = useState(optimizeValue(value))
   const overCount = list.length >= maxCount
   const hideUpload = overCount
 
@@ -112,7 +113,8 @@ function MyUpload(
       })
       .filter((item) => item.FILE_IGNORE !== true && item.status !== "error")
     setList(resList)
-  }, [])
+    onChange?.(resList)
+  }, [onChange])
 
   // 自定义上传OSS请求
   const customRequest = (e) => {
@@ -127,6 +129,7 @@ function MyUpload(
   }
 
   useEffect(() => {
+    onChange?.(list)
     loadSdk()
   }, [])
 
