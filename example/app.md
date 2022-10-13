@@ -3,12 +3,12 @@
 ## 1 实例
 
 ```jsx
-import React, { useState } from "react";
-import { App, AppLayout, View } from "antd-mobx-components";
+import React, { useState, useEffect } from "react"
+import { App, AppLayout, View } from "antd-mobx-components"
 
 function Index() {
-  const [data, setData] = useState({});
-  const [base, setBase] = useState({});
+  const [data, setData] = useState({})
+  const [base, setBase] = useState({})
 
   // 获取用户信息
   const getUserInfo = async () => {
@@ -87,17 +87,17 @@ function Index() {
             ],
           },
         ],
-      });
-    }, 1000);
-  };
+      })
+    }, 1000)
+  }
 
   // 获取下拉框数据
-  const getSelectTypes = async () => {};
+  const getSelectTypes = async () => {}
 
-  const init = () => {
-    getUserInfo();
-    getSelectTypes();
-  };
+  useEffect(() => {
+    getUserInfo()
+    getSelectTypes()
+  }, [])
 
   return (
     <App
@@ -106,32 +106,29 @@ function Index() {
         selectTypes: base,
         userInfo: data,
       }}
-      init={init}
     >
       <AppLayout
         menuConfig={data?.menus}
         extra={<div>吕肥肥</div>}
-        logo="管理系统"
+        logo='管理系统'
       >
-        <View current={['订单列表']}></View>
+        <View current={["订单列表"]}></View>
       </AppLayout>
     </App>
-  );
+  )
 }
 
-export default Index;
+export default Index
 ```
 
 ## 2 API
 
 ### 2.1 App
 
-| 属性     | 说明                                             | 类型     | 默认值 | 是否必须 |
-| -------- | ------------------------------------------------ | -------- | ------ | -------- |
-| id       | 项目 id, 没有这个值页面会一直显示 骨架屏状态     | number   | 无     | 是       |
-| init     | 项目初始化做的事情，比如请求用户信息，请求菜单栏 | function | 无     | 否       |
-| isLogin  | 判断是否登录                                     | blooean  | 无     | 否       |
-| provider | 全局状态数据，比如全局下拉框数据，用户信息       | object   | 无     | 否       |
+| 属性     | 说明                                         | 类型   | 默认值 | 是否必须 |
+| -------- | -------------------------------------------- | ------ | ------ | -------- |
+| id       | 项目 id, 没有这个值页面会一直显示 骨架屏状态 | number | 无     | 是       |
+| provider | 全局状态数据，比如全局下拉框数据，用户信息   | object | 无     | 否       |
 
 ### 2.2 AppLayout
 
