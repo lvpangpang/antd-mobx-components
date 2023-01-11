@@ -10,6 +10,7 @@ function Export(props) {
         // 导出错误信息提示
         if (data.type.includes("application/json")) {
           let reader = new FileReader()
+          reader.readAsText(data)
           reader.onload = (e) => {
             if (e.target.readyState === 2) {
               let backJson = JSON.parse(e.target.result)
@@ -17,7 +18,6 @@ function Export(props) {
               message.error(`${backJson.msg}`)
             }
           }
-          reader.readAsText(data)
         } else {
           const link = document.createElement("a")
           link.download = name
@@ -31,11 +31,7 @@ function Export(props) {
     }
   }
   return (
-    <Button
-      type="primary"
-      onClick={handelExport}
-      {...restProps}
-    >
+    <Button type='primary' onClick={handelExport} {...restProps}>
       {children || "导出"}
     </Button>
   )

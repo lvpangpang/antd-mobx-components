@@ -7,6 +7,13 @@ import React, { useState, useRef } from "react"
 import { Button } from "antd-mobx-components"
 
 function Index() {
+  const handlePromise = () => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve("吕肥肥")
+      }, 1000)
+    })
+  }
   return (
     <>
       <Button
@@ -18,21 +25,12 @@ function Index() {
       </Button>
       <br />
       <br />
-      <Button
-        type="primary"
-        onClick={() => {
-          return new Promise((resolve, reject) => {
-            setTimeout(() => {
-              resolve("吕肥肥")
-            }, 1000)
-          })
-        }}
-      >
+      <Button type='primary' onClick={handlePromise}>
         点我(Promise)
       </Button>
       <br />
       <br />
-      <Button to="/abc">跳转到/abc</Button>
+      <Button to='/abc'>跳转到/abc</Button>
     </>
   )
 }

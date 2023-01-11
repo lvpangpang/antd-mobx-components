@@ -1,35 +1,37 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Button } from "antd";
-import { isFun, isPromise } from "js-common-library";
+import { useState } from "react"
+import { Link } from "react-router-dom"
+import { Button } from "antd"
+import { isFun, isPromise } from "js-common-library"
 
 function MyButton(props) {
-  const [loading, setLoading] = useState(false);
-  const { onClick, to, ...rest } = props;
+  const { onClick, to, ...rest } = props
+  const [loading, setLoading] = useState(false)
+
   const handleClick = () => {
     if (isFun(onClick)) {
-      const back = onClick();
+      const back = onClick()
       if (isPromise(back)) {
-        setLoading(true);
+        setLoading(true)
         back.finally(() => {
-          setLoading(false);
-        });
+          setLoading(false)
+        })
       }
     }
-  };
+  }
+
   const Btn = (
     <Button
       {...rest}
       loading={loading}
       onClick={to ? undefined : handleClick}
     ></Button>
-  );
+  )
 
   if (to) {
-    return <Link to={to}>{Btn}</Link>;
+    return <Link to={to}>{Btn}</Link>
   }
 
-  return Btn;
+  return Btn
 }
 
-export default MyButton;
+export default MyButton
