@@ -1,4 +1,4 @@
-import { forwardRef, useState, useEffect, useCallback } from "react"
+import { forwardRef, useState, useEffect } from "react"
 import { Upload, message, Button } from "antd"
 import { PlusOutlined } from "@ant-design/icons"
 import { isFun } from "js-common-library"
@@ -58,7 +58,7 @@ function MyUpload(
       return Promise.reject()
     }
 
-    // 图片格式校验
+    // 图片格式校验(图片大小，宽高，最大宽高限制等等)
     if (
       (listType === "picture-card" || listType === "picture") &&
       !isImg(file)
@@ -102,7 +102,7 @@ function MyUpload(
     file - 当前上传的单个文件(不管你选择了几个)
     fileList- 所有已经上传的文件列表，包括当前上传的
   */
-  const handleChange = useCallback(({ file, fileList }) => {
+  const handleChange = ({ file, fileList }) => {
     const resList = fileList
       .map((item) => {
         const { response, ...other } = item
@@ -114,7 +114,7 @@ function MyUpload(
       .filter((item) => item.FILE_IGNORE !== true && item.status !== "error")
     setList(resList)
     onChange?.(resList)
-  }, [onChange])
+  }
 
   // 自定义上传OSS请求
   const customRequest = (e) => {
@@ -136,20 +136,20 @@ function MyUpload(
   return (
     <Upload
       ref={ref}
-      fileList={list}
-      onChange={handleChange}
-      beforeUpload={handleBeforeUpload}
-      customRequest={customRequest}
       listType={listType}
       multiple
+      fileList={list}
+      beforeUpload={handleBeforeUpload}
+      customRequest={customRequest}
+      onChange={handleChange}
       {...restProps}
     >
       {hideUpload ? null : children || listType === "text" ? (
-        <Button type="primary">上传文件</Button>
+        <Button type='primary'>上传文件</Button>
       ) : (
         <div>
           <PlusOutlined></PlusOutlined>
-          <div className="ant-upload-text">上传</div>
+          <div className='ant-upload-text'>上传</div>
         </div>
       )}
     </Upload>

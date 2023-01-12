@@ -1,31 +1,28 @@
-import { makeAutoObservable } from "mobx";
-import { omitValues } from "js-common-library";
-import SearchStore from "../SearchBar/store";
-import { overrideStore } from "../utils";
+import { makeAutoObservable } from "mobx"
+import { omitValues } from "js-common-library"
+import SearchStore from "../SearchBar/store"
+import { overrideStore } from "../utils"
 class TableStore {
-  
-  $storeName = "TABLE_STORE";
+  $storeName = "TABLE_STORE"
   constructor(overrides) {
-    overrideStore(this, overrides);
-    makeAutoObservable(this);
+    overrideStore(this, overrides)
+    makeAutoObservable(this)
   }
 
   /* 
-    searchBar 
+    searchBar 实例
   */
   $searchBarStore = new SearchStore({
     onSearch: () => {
-      this.search({ pageNum: 1 }); // 点击搜索调用TableStore的search方法，点击搜索页数永远被置为1
+      this.search({ pageNum: 1 }) // 点击搜索调用TableStore的search方法，点击搜索页数永远被置为1
     },
-  });
-  // 此方法是暴露给SearchBar组件使用的，为了获取SearchBar自己的store
+  })
   getSearchBarStore = () => {
-    return this.$searchBarStore;
-  };
-  // 获取搜索参数
+    return this.$searchBarStore
+  }
   getParams = () => {
-    return this.$searchBarStore.getSearchParams();
-  };
+    return this.$searchBarStore.getSearchParams()
+  }
 
   /* 
     列表分页 
@@ -38,52 +35,51 @@ class TableStore {
     showTotal: (total) => `共 ${total} 条`,
     showQuickJumper: true,
     showSizeChanger: true,
-  };
+  }
   setPagination = (data) => {
     this.pagination = {
       ...this.pagination,
       ...data,
-    };
-  };
+    }
+  }
   getPagination = () => {
-    return this.pagination;
-  };
+    return this.pagination
+  }
   paging = ({ current, pageSize }) => {
-    const { serverPagination } = this.getPagination();
+    const { serverPagination } = this.getPagination()
     this.setPagination({
       current,
       pageSize,
-    });
+    })
     // 判断是否需要服务端分页
-    if (serverPagination) this.search();
-  };
-  // 获取最终请求的参数（搜索参数+分页参数）
-  getFinalParams = () => {
-    const searchParams = this.getParams();
-    const { current, pageSize } = this.pagination;
-    const finalParams = {
-      ...searchParams,
-      pageNum: current,
-      pageSize,
-    };
-    return omitValues(finalParams);
-  };
+    if (serverPagination) this.search()
+  }
 
   /*  
     请求 
   */
-  list = [];
-  loading = false;
+  list = []
+  loading = false
+  getFinalParams = () => {
+    const searchParams = this.getParams()
+    const { current, pageSize } = this.pagination
+    const finalParams = {
+      ...searchParams,
+      pageNum: current,
+      pageSize,
+    }
+    return omitValues(finalParams)
+  }
   search = async (params = {}) => {
-    const finalParams = this.getFinalParams();
-    const { pageNum } = params;
+    const { pageNum } = params
+    const finalParams = this.getFinalParams()
     if (pageNum) {
-      finalParams.pageNum = pageNum;
+      finalParams.pageNum = pageNum
     }
     try {
-      this.loading = true;
-      const data = await this.fetchList(finalParams);
-      this.afterSearch(data, finalParams);
+      this.loading = true
+      const data = await this.fetchList(finalParams)
+      this.afterSearch(data, finalParams)
     } catch (e) {
       this.afterSearch(
         {
@@ -91,49 +87,47 @@ class TableStore {
           total: 0,
         },
         finalParams
-      );
+      )
     }
-  };
-  // 请求结果处理
+  }
   afterSearch = (data, finalParams) => {
-    const { list, total } = data;
-    const { pageNum, pageSize } = finalParams;
+    const { list, total } = data
+    const { pageNum, pageSize } = finalParams
     this.setPagination({
       serverPagination: !!total,
       current: pageNum,
       pageSize,
       total: total || list.length,
-    });
-    this.list = list || [];
-    this.loading = false;
-  };
-  // 业务代码请求
-  fetchList = (params) => {
+    })
+    this.list = list || []
+    this.loading = false
+  }
+  fetchList = () => {
     return {
       list: [],
       total: 0,
-    };
-  };
+    }
+  }
 
   /* 
     列表选择 
   */
-  selectedRowKeys = [];
-  selectedRows = [];
+  selectedRowKeys = []
+  selectedRows = []
   setSelected = (keys, selectedRows) => {
-    this.selectedRowKeys = keys;
-    this.selectedRows = selectedRows;
-  };
+    this.selectedRowKeys = keys
+    this.selectedRows = selectedRows
+  }
   getSelected = () => {
     return {
       rows: this.selectedRows,
       keys: this.selectedRowKeys,
-    };
-  };
+    }
+  }
   clearSelected = () => {
-    this.selectedRowKeys = [];
-    this.selectedRows = [];
-  };
+    this.selectedRowKeys = []
+    this.selectedRows = []
+  }
 }
 
-export default TableStore;
+export default TableStore

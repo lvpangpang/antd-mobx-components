@@ -14,12 +14,13 @@ http.setConfig({
   headers: {
     contextId: "dss",
     "skio-token":
-      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJib3NzX2F1dGhfaXNzdWVyIiwiY29udGV4dElkIjoiZHNzIiwiZXhwIjoxNjY1NDk3NzA0LCJ1c2VySWQiOjcxMn0.TWn5rCjhIXGUir1eowqIUf-tKHoyQvVW_H_j9_1yvZM",
+      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJib3NzX2F1dGhfaXNzdWVyIiwiY29udGV4dElkIjoiZHNzIiwiZXhwIjoxNjczNTQ4OTE1LCJ1c2VySWQiOjcxMn0.W0S7FVSI8gnuWDGcHjZ3mLewNJCL337-ep2l3Rsolc4",
   },
 })
 
 function Index() {
   const ref0 = useRef()
+  const ref1 = useRef()
   const [form] = Form.useForm()
 
   // 获取sts
@@ -36,11 +37,11 @@ function Index() {
   }
   return (
     <>
-      <Card title="上传图片" style={{ marginBottom: 30 }}>
+      <Card title='上传图片' style={{ marginBottom: 30 }}>
         <Upload
           ref={ref0}
-          dirname="driver"
-          accept="image/png, image/jpeg"
+          dirname='driver'
+          accept='image/png, image/jpeg'
           value={[
             {
               name:
@@ -54,20 +55,38 @@ function Index() {
         ></Upload>
         <br />
         <Button
-          type="primary"
+          type='primary'
           onClick={() => {
             console.log(ref0.current.fileList)
           }}
         >
-          获取上传文件对象
+          获取上传文件对象（控制台查看结果）
         </Button>
       </Card>
 
-      <Card title="Form上传图片">
+      <Card title='上传文件' style={{ marginBottom: 30 }}>
+        <Upload
+          ref={ref1}
+          listType="text"
+          getOSSConfig={getConfig}
+          maxCount={3}
+        ></Upload>
+        <br />
+        <Button
+          type='primary'
+          onClick={() => {
+            console.log(ref1.current.fileList)
+          }}
+        >
+          获取上传文件对象（控制台查看结果）
+        </Button>
+      </Card>
+
+      <Card title='Form上传图片'>
         <Form form={form}>
           <Item
-            name="uploadImg"
-            label="备注图片"
+            name='uploadImg'
+            label='备注图片'
             extra={"图片最多可添加2张，大小不得大于4M，支持jpg、png、jpeg格式"}
             rules={[
               {
@@ -88,13 +107,13 @@ function Index() {
               getOSSConfig={getConfig}
               maxCount={2}
               maxSize={4 * 1024 * 1024}
-              dirname="driver"
-              accept="image/jpg, image/png, image/jpeg"
+              dirname='driver'
+              accept='image/jpg, image/png, image/jpeg'
             />
           </Item>
         </Form>
-        <Button type="primary" onClick={submit}>
-          提交处理
+        <Button type='primary' onClick={submit}>
+          提交处理（控制台查看结果）
         </Button>
       </Card>
     </>
@@ -110,7 +129,7 @@ export default Index
 | value        | 初始值，配合 From 使用的时候请用 Form.Item 的 initialValue 属性代替 |          |        |          |
 | ref          | Upload 实例，通过和这个对象可以直接获取上传后的 fileList 对象       |          |        |          |
 | maxSize      | 单个文件最大（2 * 1024*1024）                                       | number   |        |
-| maxCount     | 文件总数                                                            | number   | 1      |          |
+| maxCount     | 文件总数                                                            | number   | 100      |          |
 | dirname      | 上传文件所在的文件夹                                                | string   |        |          |
 | getOSSConfig | 获取阿里云 sts 配置 ，需要返回 Promise                              | function |        | 必须     |
 | imgLimit     | 图片限制，目前支持 width, height, maxWidth, maxHeight               | object   |        |          |
