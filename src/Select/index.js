@@ -1,16 +1,16 @@
-import { Select, Divider, Checkbox } from "antd";
-import { isStr, isArr } from "js-common-library";
-import { Children } from "react";
-import { useAppInfo } from "../App/context";
+import { Select, Divider, Checkbox } from "antd"
+import { isStr, isArr } from "js-common-library"
+import { Children } from "react"
+import { useAppInfo } from "../App/context"
 
-const { Option, OptGroup } = Select;
+const { Option, OptGroup } = Select
 
 const filterOption = (input, option) => {
   if (isStr(option.children)) {
-    return option.children.toLowerCase().includes(input.toLowerCase());
+    return option.children.toLowerCase().includes(input.toLowerCase())
   }
-  return false;
-};
+  return false
+}
 function MySelect(props) {
   const {
     type,
@@ -22,10 +22,10 @@ function MySelect(props) {
     value,
     onChange,
     ...restProps
-  } = props;
+  } = props
 
-  const { baseTypes = {} } = useAppInfo() || {};
-  let typeList = options || [];
+  const { baseTypes = {} } = useAppInfo() || {}
+  let typeList = options || []
 
   if (isStr(type)) {
     typeList = baseTypes[type]
@@ -34,40 +34,40 @@ function MySelect(props) {
   const child =
     children ||
     typeList.map((item) => {
-      let value = item.value || item.key;
-      let label = item.label;
+      let value = item.value || item.key
+      let label = item.label
       return (
         <Option value={value} key={value}>
           {label}
         </Option>
-      );
-    });
+      )
+    })
 
-  const optionCount = Children.count(child);
+  const optionCount = Children.count(child)
   const showCheckAllAction =
-    ["multiple", "tags"].includes(mode) && optionCount > 0 && !!checkAllAction;
+    ["multiple", "tags"].includes(mode) && optionCount > 0 && !!checkAllAction
 
-  let allOption;
+  let allOption
   if (showAll && !showCheckAllAction) {
-    allOption = <Option value="">全部</Option>;
+    allOption = <Option value=''>全部</Option>
   }
 
   // 全选
   const checkAll = (e) => {
     if (e.target.checked) {
       const allValues = Children.map(child, (node) => {
-        const { value: nodeValue } = node.props;
-        return nodeValue;
-      });
-      onChange?.(allValues);
+        const { value: nodeValue } = node.props
+        return nodeValue
+      })
+      onChange?.(allValues)
     } else {
-      onChange?.(undefined);
+      onChange?.(undefined)
     }
-  };
+  }
 
-  const valueCount = isArr(value) ? value.length : 0;
-  const hasAllChecked = valueCount > 0 && optionCount === valueCount;
-  const indeterminate = valueCount > 0 && valueCount < optionCount;
+  const valueCount = isArr(value) ? value.length : 0
+  const hasAllChecked = valueCount > 0 && optionCount === valueCount
+  const indeterminate = valueCount > 0 && valueCount < optionCount
   const dropdownRender = (menu) => {
     return (
       <div>
@@ -82,8 +82,8 @@ function MySelect(props) {
           全选
         </Checkbox>
       </div>
-    );
-  };
+    )
+  }
 
   return (
     <Select
@@ -99,10 +99,10 @@ function MySelect(props) {
       {allOption}
       {child}
     </Select>
-  );
+  )
 }
 
-MySelect.Option = Option;
-MySelect.OptGroup = OptGroup;
+MySelect.Option = Option
+MySelect.OptGroup = OptGroup
 
-export default MySelect;
+export default MySelect

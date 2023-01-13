@@ -44,7 +44,7 @@ export default function Index() {
 | 属性           | 说明                                                          | 类型    | 默认值    |
 | -------------- | ------------------------------------------------------------- | ------- | --------- |
 | options        | 数据源数组                                                        | 数组    | []        |
-| type           | 下拉数据源的 key，比如城市-city（实际开发中推荐用这种最简洁） | 字符串  | undefined |
+| type           | 下拉数据源的 key，比如城市- type="city"（实际开发中推荐用这种最简洁） | 字符串  | undefined |
 | showAll        | 是否显示全部                                                  | blooean | false     |
 | checkAllAction | 是否开启全选（mode 必须为 multiple 或 tags）                  | blooean |       fasle    |
 
