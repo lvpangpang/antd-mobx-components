@@ -1,6 +1,6 @@
 ## Image
 
-## 实例
+## 1 实例
 
 ```jsx
 import React, { useState, useRef } from "react"
@@ -35,6 +35,6 @@ function Index() {
 export default Index
 ```
 
-## API
+## 2 API
 
 参考 rc-image 文档

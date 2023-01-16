@@ -1,6 +1,6 @@
 ## Export
 
-## 实例
+## 1 实例
 
 ```jsx
 import React, { useState, useRef } from "react";
@@ -29,7 +29,7 @@ function Index() {
 export default Index;
 ```
 
-## API
+## 2 API
 
 | 属性   | 说明         | 类型   | 默认值    | 是否必须 |
 | ------ | ------------ | ------ | --------- | -------- |

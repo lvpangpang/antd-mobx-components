@@ -1,6 +1,6 @@
 ## Modal
 
-## 实例
+## 1 实例
 
 ```jsx
 import React, { useEffect } from "react";
@@ -81,7 +81,7 @@ function Index() {
 export default observer(Index);
 ```
 
-## API
+## 2 API
 
 | 属性  | 说明            | 类型 | 默认值 | 是否必须 |
 | ----- | --------------- | ---- | ------ | -------- |
