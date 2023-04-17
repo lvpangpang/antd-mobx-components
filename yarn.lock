@@ -2029,9 +2029,9 @@ ansi-wrap@0.1.0, ansi-wrap@^0.1.0:
   resolved "https://registry.yarnpkg.com/ansi-wrap/-/ansi-wrap-0.1.0.tgz#a82250ddb0015e9a27ca82e82ea603bbfa45efaf"
   integrity sha1-qCJQ3bABXponyoLoLqYDu/pF768=
 
-antd@^4.23.5:
+antd@4.23.5:
   version "4.23.5"
-  resolved "https://registry.yarnpkg.com/antd/-/antd-4.23.5.tgz#4946191ac44d762590b2dbb84a4b8cd1101ab0cf"
+  resolved "http://121.43.179.6:4873/antd/-/antd-4.23.5.tgz#4946191ac44d762590b2dbb84a4b8cd1101ab0cf"
   integrity sha512-AMea5NYoMeGvRxZ/rslGvRqaiuzBgQMpOdlQfNjOfMd+0ZGi+E4AiwXilR99muFOttPcr3ebeIsKiUS5p/cnig==
   dependencies:
     "@ant-design/colors" "^6.0.0"
@@ -5185,10 +5185,10 @@ jest-worker@26.6.2, jest-worker@^26.2.1:
     merge-stream "^2.0.0"
     supports-color "^7.0.0"
 
-js-common-library@1.3.2:
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/js-common-library/-/js-common-library-1.3.2.tgz#ce30602706ee17c4582e2535e80cd214c42334e4"
-  integrity sha512-T/3BtX6OSXbINKop4ev+QoiA5fmTpnuy7o/DdRvQsKyua5Th9i9ipieG0Uv7M9bUDPQaxSqM/Ch9mXGxHWeMaQ==
+js-common-library@1.3.5:
+  version "1.3.5"
+  resolved "http://121.43.179.6:4873/js-common-library/-/js-common-library-1.3.5.tgz#035e1de44da250743928a17ff7dac473fc7df043"
+  integrity sha512-3pMv/i1EQgCWWbc0z8Oe4rX6Y/KkPAQbdeu1BjBYBLUng5gcOdcNugtWHhuTq1WVdC2GUbAxfvOesCuFMNlsHw==
   dependencies:
     axios "0.21.1"
 
@@ -9561,15 +9561,15 @@ util@^0.11.0:
   dependencies:
     inherits "2.0.3"
 
+uuid@8.3.2:
+  version "8.3.2"
+  resolved "http://121.43.179.6:4873/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
+  integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
+
 uuid@^3.3.2:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
-
-uuid@^8.3.2:
-  version "8.3.2"
-  resolved "http://npm.shandiantech.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
-  integrity sha1-gNW1ztJxu5r2xEXyGhoExgbO++I=
 
 v8-compile-cache@2.3.0:
   version "2.3.0"
